@@ -14,9 +14,8 @@ def replace_empty_line(lines: str) -> str:
     # 改行文字が LF か CR+LF かはデータによるが，ここで LF に統一する
     lines = lines.replace('\r\n', '\n')
 
-    # 空行 = "\n\n" or "\r\n\r\n"
-    while '\n\n' in lines:  # 効率が悪い可能性があるが，改良は後回し
-        lines = lines.replace('\n\n', '\n')
+    # 空行 = "\n\n" のように，改行コードが2つ以上連続した部分
+    lines = re.sub(r'\n{2,}', '\n', lines)
     return lines
 
 
@@ -25,12 +24,10 @@ def remove_number_honorific(person_string: str) -> Dict[str, Any]:
     number = mojimoji.zen_to_han(person_string[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
     name = person_string[re_res.end():]
 
-    if name.endswith('議員'):
+    if name.endswith('議員') or name.endswith('さん'):
         name = name[:-2]
     elif name.endswith('君'):
         name = name[:-1]
-    elif name.endswith('さん'):
-        name = name[:-2]
 
     return {'number': number, 'name': name}
 
@@ -45,7 +42,7 @@ def parse(html_string: str) -> List[dict]:
         要件2: <br>タグではなく，改行コードで行の終わりを表す
     """
     # フォーマット変更ここから
-    br_line_pattern = re.compile('( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみ
+    br_line_pattern = re.compile(r'( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみ
     html_string = re.sub(br_line_pattern, '', html_string)  # からなる行を取り除く
     html_string = replace_empty_line(html_string)
     # フォーマット変更終わり
@@ -82,17 +79,6 @@ def det_encoding(file_path: str) -> str:
             detector.feed(binary)
             if detector.done:
                 break
-    detector.close()
-
-    return detector.result['encoding']
-
-
-def det_encoding_by_bytes(html_bytes: bytes) -> str:
-    detector = UniversalDetector()
-    for binary in html_bytes:
-        detector.feed(binary)
-        if detector.done:
-            break
     detector.close()
 
     return detector.result['encoding']
