@@ -1,6 +1,6 @@
 import sys
 import re
-from typing import List
+from typing import List, Dict, Any
 
 from chardet.universaldetector import UniversalDetector
 import mojimoji
@@ -20,6 +20,21 @@ def replace_empty_line(lines: str) -> str:
     return lines
 
 
+def remove_number_honorific(person_string: str) -> Dict[str, Any]:
+    re_res = re.search(r'[0-9|０-９]+番', person_string)
+    number = mojimoji.zen_to_han(person_string[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
+    name = person_string[re_res.end():]
+
+    if name.endswith('議員'):
+        name = name[:-2]
+    elif name.endswith('君'):
+        name = name[:-1]
+    elif name.endswith('さん'):
+        name = name[:-2]
+
+    return {'number': number, 'name': name}
+
+
 def parse(html_string: str) -> List[dict]:
     r"""
     :param html_string: htmlのソース
@@ -27,7 +42,7 @@ def parse(html_string: str) -> List[dict]:
 
     作戦：和歌山市のようなフォーマットに一度揃える
         要件1: 空行を含まないこと
-        要件2: <br>タグではなく，改行コードで行の終わりを明示
+        要件2: <br>タグではなく，改行コードで行の終わりを表す
     """
     # フォーマット変更ここから
     br_line_pattern = re.compile('( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみ
@@ -42,8 +57,8 @@ def parse(html_string: str) -> List[dict]:
     for row in html_string.split('\n')[1:]:  # 最初の行はいらない
         if '番' not in row or re.fullmatch(r'　*(―|－)+', row):
             break  # '番'が含まれない行，全角または半角のハイフン用いた水平線が終わりを表すと仮定
-        ban_count = row.count('番')
 
+        ban_count = row.count('番')  # 1行に何人分の氏名がある？番の数で判断
         if ban_count == 2:
             pivot = row.rfind('番') - 2  # 2番目の「番」より2文字前まであたりを境界に，前後に名前がある
             member_list.append(row[:pivot])
@@ -51,31 +66,13 @@ def parse(html_string: str) -> List[dict]:
         elif ban_count == 1:
             member_list.append(row)
         else:  # 1行に3個以上の氏名がある場合は，ひとまず考えない
-            sys.stderr.write('「番」の数が %d 個あり，対処できない\n' % ban_num)
+            sys.stderr.write('「番」の数が %d 個あり，対処できない\n' % ban_count)
             assert True
 
-    member_list = list(map(lambda x: x.replace('　', '').replace(' ', ''), member_list))
+    member_list = [remove_number_honorific(member.replace('　', '').replace(' ', ''))
+                   for member in member_list]
+    return member_list
 
-    # 番号を取り除く
-    member_list_without_nb = []
-    for member in member_list:
-        re_res = re.search(r'[0-9|０-９]+番', member)
-        number = mojimoji.zen_to_han(member[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
-        name = member[re_res.end():]
-
-        if name.endswith('議員'):
-            name = name[:-2]
-        elif name.endswith('君'):
-            name = name[:-1]
-        elif name.endswith('さん'):
-            name = name[:-2]
-
-        member_list_without_nb.append({
-            'number': number,
-            'name':   name,
-        })
-
-    return member_list_without_nb
 
 def det_encoding(file_path: str) -> str:
     detector = UniversalDetector()
