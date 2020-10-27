@@ -79,18 +79,6 @@ def parse(html_string: str) -> List[dict]:
 
     return member_list_without_nb
 
-
-# def get_by_url(url: str) -> bytes:
-#     response = requests.get(url)
-#     if response.status_code != 200:
-#         if response.status_code % 100 == 4:
-#             raise ValueError('given unreachable url:', url)
-#         else:
-#             raise ValueError('got status_code: %d with given url: %s' % (response.status_code, url))
-#
-#     return response.content
-
-
 def det_encoding(file_path: str) -> str:
     detector = UniversalDetector()
 
