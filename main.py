@@ -36,21 +36,19 @@ def parse(html_string: str) -> List[dict]:
     # フォーマット変更終わり
 
     re_res = re.search(r'出席.*', html_string)
-    after_shusseki_giin = html_string[re_res.start():]  # 「出席」が含まれる行を開始地点とする
-
-    # print(after_shusseki_giin)
+    html_string = html_string[re_res.start():]  # 「出席」が含まれる行を開始地点とする
 
     member_list = []
-    for row in after_shusseki_giin.split('\n')[1:]:  # 最初の行はいらない
+    for row in html_string.split('\n')[1:]:  # 最初の行はいらない
         if '番' not in row or re.fullmatch(r'　*(―|－)+', row):
             break  # '番'が含まれない行，全角または半角のハイフン用いた水平線が終わりを表すと仮定
-        ban_num = row.count('番')
-        # print(ban_num)
-        if ban_num == 2:
-            pivot = row.rfind('番')
-            member_list.append(row[:pivot - 2])  # 2番目の「番」より2文字前までを取り出す
-            member_list.append(row[pivot - 2:])
-        elif ban_num == 1:
+        ban_count = row.count('番')
+
+        if ban_count == 2:
+            pivot = row.rfind('番') - 2  # 2番目の「番」より2文字前まであたりを境界に，前後に名前がある
+            member_list.append(row[:pivot])
+            member_list.append(row[pivot:])
+        elif ban_count == 1:
             member_list.append(row)
         else:  # 1行に3個以上の氏名がある場合は，ひとまず考えない
             sys.stderr.write('「番」の数が %d 個あり，対処できない\n' % ban_num)
