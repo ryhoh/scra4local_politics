@@ -2,7 +2,6 @@ import sys
 import re
 from typing import List
 
-import requests
 from chardet.universaldetector import UniversalDetector
 import mojimoji
 
@@ -25,10 +24,16 @@ def parse(html_string: str) -> List[dict]:
     r"""
     :param html_string: htmlのソース
     :return: list(dict(number: 議員番号, name: 氏名), …)
+
+    作戦：和歌山市のようなフォーマットに一度揃える
+        要件1: 空行を含まないこと
+        要件2: <br>タグではなく，改行コードで行の終わりを明示
     """
-    br_line_pattern = re.compile('( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみからなる行を
-    html_string = re.sub(br_line_pattern, '', html_string)  # 取り除く
+    # フォーマット変更ここから
+    br_line_pattern = re.compile('( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみ
+    html_string = re.sub(br_line_pattern, '', html_string)  # からなる行を取り除く
     html_string = replace_empty_line(html_string)
+    # フォーマット変更終わり
 
     re_res = re.search(r'出席.*', html_string)
     after_shusseki_giin = html_string[re_res.start():]  # 「出席」が含まれる行を開始地点とする
@@ -39,7 +44,6 @@ def parse(html_string: str) -> List[dict]:
     for row in after_shusseki_giin.split('\n')[1:]:  # 最初の行はいらない
         if '番' not in row or re.fullmatch(r'　*(―|－)+', row):
             break  # '番'が含まれない行，全角または半角のハイフン用いた水平線が終わりを表すと仮定
-        # member_list += row.split('　' * 6)  # 観察したところ，6個以上の全角スペースが，名前の区切りに使われている模様
         ban_num = row.count('番')
         # print(ban_num)
         if ban_num == 2:
@@ -58,13 +62,8 @@ def parse(html_string: str) -> List[dict]:
     member_list_without_nb = []
     for member in member_list:
         re_res = re.search(r'[0-9|０-９]+番', member)
-        number = ''
-
-        # if re_res:  # 番号付きなら
         number = mojimoji.zen_to_han(member[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
         name = member[re_res.end():]
-        # else:
-        #     name = member
 
         if name.endswith('議員'):
             name = name[:-2]
