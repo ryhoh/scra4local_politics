@@ -2,6 +2,7 @@ import sys
 import re
 from typing import List, Dict, Any
 
+from chardet import UniversalDetector
 import nkf
 import mojimoji
 
@@ -20,6 +21,10 @@ def replace_empty_line(lines: str) -> str:
 
 
 def remove_number_honorific(person_string: str) -> Dict[str, Any]:
+    r"""
+    :param person_string: 「番」や「議員」「くん」などを含む，氏名情報
+    :return: 辞書(議員番号, 氏名)
+    """
     re_res = re.search(r'[0-9|０-９]+番', person_string)
     number = mojimoji.zen_to_han(person_string[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
     name = person_string[re_res.end():]
@@ -71,17 +76,46 @@ def parse(html_string: str) -> List[dict]:
     return member_list
 
 
+def det_encoding(file_path: str) -> str:
+    r"""
+    :param file_path: 文字コードを判定したいファイルのパス
+    :return: 判定結果の文字コード
+    """
+    # 2つの方法で文字コード判定
+    # 1. chardet.UniversalDetector
+    detector = UniversalDetector()
+    with open(file_path, mode='rb') as f:
+        for binary in f:
+            detector.feed(binary)
+            if detector.done:
+                break
+    detector.close()
+    chardet_res = detector.result['encoding'].lower()
+
+    # 2. nkf
+    with open(file_path, mode='rb') as f:
+        nkf_res = nkf.guess(f.read()).lower()
+
+    # 時々，2つの結果が食い違っていたりするが，どうにかして片方を選ぶ
+    if chardet_res != nkf_res:
+        sys.stderr.write('[warning] conflict char_codes: %s vs %s\n' % (chardet_res,  nkf_res))
+        if 'cp932' in {chardet_res, nkf_res}:
+            return 'CP932'  # 暫定的に，CP932の可能性がある時はCP932にしておく
+        else:
+            raise ValueError("現在扱えない文字コードで書かれたファイル：", file_path)
+    return chardet_res
+
+
 if __name__ == '__main__':
-    path = 'res/ibaraki.html'
+    # path = 'res/ibaraki.html'
     # path = 'res/takatsuki.html'
     # path = 'res/wakayama.html'
     # path = 'res/otsu.html'
     # path = 'res/hikone.html'
-    # path = 'res/higashiomi.html'
+    path = 'res/higashiomi.html'
     # path = 'res/kusatsu.html'
 
-    with open(path, 'rb') as f:
-        enc = nkf.guess(f.read())
+    enc = det_encoding(path)
 
     with open(path, 'r', encoding=enc) as f:
         print(parse(f.read()))

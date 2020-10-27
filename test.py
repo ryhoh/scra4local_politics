@@ -1,16 +1,13 @@
 from typing import List, Dict
 import unittest
 
-import nkf
-
-from main import parse
+from main import parse, det_encoding
 
 
 class TestParse(unittest.TestCase):
     @staticmethod
     def load(path: str) -> str:
-        with open(path, 'rb') as f:
-            enc = nkf.guess(f.read())
+        enc = det_encoding(path)
         with open(path, 'r', encoding=enc) as f:
             return f.read()
 
@@ -104,6 +101,20 @@ class TestParse(unittest.TestCase):
             {'number': '20', 'name': '黒澤茂樹'}, {'number': '9', 'name': '杉原祥浩'}, {'number': '21', 'name': '伊藤容子'},
             {'number': '10', 'name': '谷口典隆'}, {'number': '22', 'name': '馬場和子'}, {'number': '11', 'name': '和田一繁'},
             {'number': '23', 'name': '長崎任男'}, {'number': '12', 'name': '野村博雄'}, {'number': '24', 'name': '安澤勝'}
+        ])
+        self.assertListEqual(ideal, res)
+
+    def test_higashiomi(self):
+        res = self.sorted_result(parse(self.load('res/higashiomi.html')))
+        ideal = self.sorted_result([
+            {'number': '1', 'name': '山本直彦'}, {'number': '2', 'name': '青山孝司'}, {'number': '3', 'name': '櫻直美'},
+            {'number': '4', 'name': '鈴木則彦'}, {'number': '5', 'name': '辻英幸'}, {'number': '6', 'name': '西村和恭'},
+            {'number': '7', 'name': '田井中丈三'}, {'number': '8', 'name': '井上均'}, {'number': '9', 'name': '吉坂豊'},
+            {'number': '10', 'name': '森田德治'}, {'number': '11', 'name': '廣田耕康'}, {'number': '12', 'name': '戸嶋幸司'},
+            {'number': '13', 'name': '西﨑彰'}, {'number': '14', 'name': '安田高玄'}, {'number': '15', 'name': '西澤由男'},
+            {'number': '16', 'name': '西村純次'}, {'number': '17', 'name': '和田喜藏'}, {'number': '18', 'name': '市木徹'},
+            {'number': '19', 'name': '山中一志'}, {'number': '20', 'name': '竹内典子'}, {'number': '21', 'name': '大橋保治'},
+            {'number': '23', 'name': '田郷正'}, {'number': '24', 'name': '大洞共一'}, {'number': '25', 'name': '西澤善三'}
         ])
         self.assertListEqual(ideal, res)
 
