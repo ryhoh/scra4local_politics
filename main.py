@@ -2,7 +2,7 @@ import sys
 import re
 from typing import List, Dict, Any
 
-from chardet.universaldetector import UniversalDetector
+import nkf
 import mojimoji
 
 
@@ -71,25 +71,17 @@ def parse(html_string: str) -> List[dict]:
     return member_list
 
 
-def det_encoding(file_path: str) -> str:
-    detector = UniversalDetector()
-
-    with open(file_path, mode='rb') as f:
-        for binary in f:
-            detector.feed(binary)
-            if detector.done:
-                break
-    detector.close()
-
-    return detector.result['encoding']
-
-
 if __name__ == '__main__':
-    # path = 'res/ibaraki.html'
+    path = 'res/ibaraki.html'
     # path = 'res/takatsuki.html'
     # path = 'res/wakayama.html'
     # path = 'res/otsu.html'
-    path = 'res/hikone.html'
-    enc = det_encoding(path)
+    # path = 'res/hikone.html'
+    # path = 'res/higashiomi.html'
+    # path = 'res/kusatsu.html'
+
+    with open(path, 'rb') as f:
+        enc = nkf.guess(f.read())
+
     with open(path, 'r', encoding=enc) as f:
         print(parse(f.read()))

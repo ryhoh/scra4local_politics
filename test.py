@@ -1,13 +1,16 @@
 from typing import List, Dict
 import unittest
 
-from main import parse, det_encoding
+import nkf
+
+from main import parse
 
 
 class TestParse(unittest.TestCase):
     @staticmethod
     def load(path: str) -> str:
-        enc = det_encoding(path)
+        with open(path, 'rb') as f:
+            enc = nkf.guess(f.read())
         with open(path, 'r', encoding=enc) as f:
             return f.read()
 
