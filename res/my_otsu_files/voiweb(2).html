@@ -1,0 +1,1286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0264)http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&KENSAKU=0&SORT=0&KTYP=0,1,2,3&KGTP=1,2&FYY=2020&TYY=2020&TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&FINO=2101&HATSUGENMODE=1&HYOUJIMODE=0&STYLE=0#188928 -->
+<html lang="ja-JP"><head><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+		
+		<meta http-equiv="Content-Language" content="text/ja-JP">
+		<meta http-equiv="Content-Script-Type" content="text/JavaScript">
+		<meta http-equiv="Content-Style-Type" content="text/css">
+<title>発言一覧</title>
+<style type="text/css">
+<!--
+	body,table,td,th,tr,font,pre {
+	font-size:97%;
+	letter-spacing:1px;
+	line-height:170%;
+}
+//-->
+</style>
+<script language="JavaScript">
+<!--
+parent.comp_sidebar = 0;
+function NaviCheck(version) {
+    if ((navigator.appName.indexOf("Netscape") >= 0)
+        &&
+        (version <= parseInt(navigator.appVersion.substring(0, 3))))
+    {
+        return true;
+    }else if ((navigator.appName.indexOf("Microsoft") >= 0)
+        &&
+        (version <= parseInt(navigator.appVersion.substring(0, 3))))
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
+function move_top(huid,hitPoint){
+    if(parent.comp_hat == 0){
+        alert("本文をすべて読み込むまでお待ち下さい。");
+        return false;
+    }
+	str_obj = new String(parent.hat.location);
+	if( -1 != str_obj.indexOf( '/Picture/' , 0 ) ){
+		parent.hat.location = hat_url + '#' + 'HUID' + huid;
+	}else{
+		parent.hat.location.hash = 'HUID'+huid;
+	}
+    if( parseInt(hitPoint) == parseInt(parent.v_hit_hat_hitp_top_list.length) ){
+        parent.v_hitp = parseInt(parent.hat.hitcount);
+    }else{        parent.v_hitp = parent.v_hit_hat_hitp_top_list[hitPoint]-0.5;
+    }    if(NaviCheck(4))
+        parent.sidebar.location.hash = huid;
+    return false;
+}
+function LocatSet() {
+    var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+    for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+function sidebar_hash( huid ){
+    if( parent.comp_sidebar == 0){
+        alert("発言者リストをすべて読み込むまでお待ち下さい。");
+        return(false);
+    }
+	parent.sidebar.location.hash = huid;
+	return(true);
+}
+var first_hit_huid			= '';
+var first_hit_url			= '';
+var first_hit_movie_url	= '';
+function Set_First_Hit(){
+	if( parent.sidebar.location.hash=='' && first_hit_huid!='' && first_hit_url!='' ){
+		parent.sidebar.location.hash = first_hit_huid;
+    parent.hat.location.hash = 'HUID' + first_hit_huid; 
+    parent.v_hitp = -1;
+	}
+}
+		parent.huid_list.length = '0';
+		parent.huid_shi_list.length = '0';
+		parent.huid_tou_list.length = '0';
+		function Set_Arr_List( mode, huid, url, p_c_url, p_c_huid ){
+			var cnt;
+			if( mode == '1' ){
+				cnt = parent.huid_list.length;
+				parent.huid_list[cnt] = huid;
+				parent.url_list[cnt]  = url;
+			}else if( mode == '2' ){
+				cnt = parent.huid_shi_list.length;
+				parent.huid_shi_list[cnt] = huid;
+				parent.url_shi_list[cnt]  = url;
+				parent.pac_shi_url_list[cnt]  = p_c_url;
+				parent.pac_shi_huid_list[cnt] = p_c_huid;
+			}else if( mode == '3' ){
+				cnt = parent.huid_tou_list.length;
+				parent.huid_tou_list[cnt] = huid;
+				parent.url_tou_list[cnt]  = url;
+				parent.pac_tou_url_list[cnt]  = p_c_url;
+				parent.pac_tou_huid_list[cnt] = p_c_huid;
+			}
+		}
+	function c_col( i_no, c_mode ){
+		if( c_mode=='0' ){
+			document.images[i_no].src = "/voices/image/hat0.gif";
+		}else if( c_mode=='1' ){
+			document.images[i_no].src = "/voices/image/hat1.gif";
+			if( parent.v_img_01 != -1 && document.images[ i_no ].name != document.images[ parent.v_img_01 ].name ){
+				c_col( parent.v_img_01, '0' );
+			}
+			parent.v_img_01 =  document.images[ i_no ].name;
+		}else if( c_mode=='2' ){
+			document.images[i_no].src = "/voices/image/hat2.gif";
+			if( parent.v_img_02 != -1 && document.images[ i_no ].name != document.images[ parent.v_img_02 ].name ){
+				c_col( parent.v_img_02, '0' );
+			}
+			parent.v_img_02 =  document.images[ i_no ].name;
+		}else if( c_mode=='3' ){
+			i_no = i_no.split(",");
+			if( i_no[0]!='-1' ){
+				c_col( i_no[0], '1' );
+			}else{
+				if( parent.v_img_01 != -1 ){
+					c_col( parent.v_img_01, '0' );
+				}
+			}
+			if( i_no[1]!='-1' ){
+				c_col( i_no[1], '2' );
+			}else{
+				if( parent.v_img_02 != -1 ){
+					c_col( parent.v_img_02, '0' );
+				}
+			}
+		}
+	}
+	function set_hat_check( id ){
+		var obj = document.getElementById( id );
+		for( i=0; i<  parent.sidebar.document.Form_Word.length; i++ ){ 
+			if( parent.sidebar.document.Form_Word.elements[i].type == "checkbox" ){
+				if( obj.checked == true ){
+					parent.sidebar.document.Form_Word.elements[i].checked = true;
+				}else{
+					parent.sidebar.document.Form_Word.elements[i].checked = false;
+				}
+			}
+		}
+		if( obj.checked == true ){
+			parent.sidebar.document.Form_Word.all_check_t.checked = true;
+			parent.sidebar.document.Form_Word.all_check_b.checked = true;
+		}else{
+			parent.sidebar.document.Form_Word.all_check_t.checked = false;
+			parent.sidebar.document.Form_Word.all_check_b.checked = false;
+		}
+	}
+	function video_disp(openclose){
+        if(openclose == 1)
+            window.parent.side_fs.rows = window.parent.side_fs.attributes.OPENROWS.value;
+        else
+            window.parent.side_fs.rows = window.parent.side_fs.attributes.CLOSEROWS.value;
+	}
+//-->
+</script>
+</head>
+<body bgcolor="#F0F8FF" marginwidth="2" marginheight="0">
+<form name="Form_Word">
+<table><tbody><tr><td nowrap=""><input type="checkbox" name="all_check_t" id="all_check_t" onclick="set_hat_check(&#39;all_check_t&#39;);"></td><td style="font-size:80%;"><label for="all_check_t">全ての発言を選択</label></td></tr><tr></tr></tbody></table>
+<script language="JavaScript">
+	hat_url = 'voiweb.exe?ACT=203&KENSAKU=0&SORT=0&KTYP=0,1,2,3&KGTP=1,2&FYY=2020&TYY=2020&TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&KGNO=&FINO=2101&HATSUGENMODE=1&HYOUJIMODE=0&STYLE=0';
+</script>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188928"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_0" value="188928"></td><td nowrap=""><img src="./hat1.gif" border="0" name="i188928"></td><td nowrap="">&nbsp;&nbsp;</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188928" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188928&#39;, &#39;1&#39; ); return( move_top(&#39;188928&#39;,&#39;0&#39;));"><b>(名簿)</b></a></td><td nowrap="">(P.1)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188929"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_1" value="188929"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188929"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188929" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188929&#39;, &#39;1&#39; ); return( move_top(&#39;188929&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188930"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_2" value="188930"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188930"></td><td nowrap="">&nbsp;&nbsp;</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188930" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188930&#39;, &#39;1&#39; ); return( move_top(&#39;188930&#39;,&#39;0&#39;));"><b>(議題)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188931"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_3" value="188931"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188931"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188931" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188931&#39;, &#39;1&#39; ); return( move_top(&#39;188931&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188932"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_4" value="188932"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188932"></td><td nowrap="">&nbsp;&nbsp;</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188932" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188932&#39;, &#39;1&#39; ); return( move_top(&#39;188932&#39;,&#39;0&#39;));"><b>(議題)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188933"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_5" value="188933"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188933"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188933" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188933&#39;, &#39;1&#39; ); return( move_top(&#39;188933&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188934"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_6" value="188934"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188934"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188934" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188934&#39;, &#39;1&#39; ); return( move_top(&#39;188934&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188935"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_7" value="188935"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188935"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188935" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188935&#39;, &#39;1&#39; ); return( move_top(&#39;188935&#39;,&#39;0&#39;));"><b>市長(佐藤健司)</b></a></td><td nowrap="">(P.2)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188936"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_8" value="188936"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188936"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188936" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188936&#39;, &#39;1&#39; ); return( move_top(&#39;188936&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188937"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_9" value="188937"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188937"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188937" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188937&#39;, &#39;1&#39; ); return( move_top(&#39;188937&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188938"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_10" value="188938"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188938"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188938" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188938&#39;, &#39;1&#39; ); return( move_top(&#39;188938&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188939"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_11" value="188939"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188939"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188939" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188939&#39;, &#39;1&#39; ); return( move_top(&#39;188939&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188940"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_12" value="188940"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188940"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188940" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188940&#39;, &#39;1&#39; ); return( move_top(&#39;188940&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188941"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_13" value="188941"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188941"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188941" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188941&#39;, &#39;1&#39; ); return( move_top(&#39;188941&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188942"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_14" value="188942"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188942"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188942" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188942&#39;, &#39;1&#39; ); return( move_top(&#39;188942&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188943"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_15" value="188943"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188943"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188943" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188943&#39;, &#39;1&#39; ); return( move_top(&#39;188943&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.4)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188944"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_16" value="188944"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188944"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188944" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188944&#39;, &#39;1&#39; ); return( move_top(&#39;188944&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188945"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_17" value="188945"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188945"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188945" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188945&#39;, &#39;1&#39; ); return( move_top(&#39;188945&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188946"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_18" value="188946"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188946"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188946" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188946&#39;, &#39;1&#39; ); return( move_top(&#39;188946&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188947"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_19" value="188947"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188947"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188947" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188947&#39;, &#39;1&#39; ); return( move_top(&#39;188947&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188948"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_20" value="188948"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188948"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188948" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188948&#39;, &#39;1&#39; ); return( move_top(&#39;188948&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188949"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_21" value="188949"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188949"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188949" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188949&#39;, &#39;1&#39; ); return( move_top(&#39;188949&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188950"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_22" value="188950"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188950"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188950" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188950&#39;, &#39;1&#39; ); return( move_top(&#39;188950&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188951"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_23" value="188951"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188951"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188951" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188951&#39;, &#39;1&#39; ); return( move_top(&#39;188951&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188952"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_24" value="188952"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188952"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188952" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188952&#39;, &#39;1&#39; ); return( move_top(&#39;188952&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188953"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_25" value="188953"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188953"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188953" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188953&#39;, &#39;1&#39; ); return( move_top(&#39;188953&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.5)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188954"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_26" value="188954"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188954"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188954" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188954&#39;, &#39;1&#39; ); return( move_top(&#39;188954&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.6)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188955"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_27" value="188955"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188955"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188955" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188955&#39;, &#39;1&#39; ); return( move_top(&#39;188955&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.6)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188956"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_28" value="188956"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188956"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188956" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188956&#39;, &#39;1&#39; ); return( move_top(&#39;188956&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.6)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188957"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_29" value="188957"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188957"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188957" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188957&#39;, &#39;1&#39; ); return( move_top(&#39;188957&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.6)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188958"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_30" value="188958"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188958"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188958" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188958&#39;, &#39;1&#39; ); return( move_top(&#39;188958&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188959"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_31" value="188959"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188959"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188959" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188959&#39;, &#39;1&#39; ); return( move_top(&#39;188959&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188960"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_32" value="188960"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188960"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188960" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188960&#39;, &#39;1&#39; ); return( move_top(&#39;188960&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188961"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_33" value="188961"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188961"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188961" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188961&#39;, &#39;1&#39; ); return( move_top(&#39;188961&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188962"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_34" value="188962"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188962"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188962" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188962&#39;, &#39;1&#39; ); return( move_top(&#39;188962&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188963"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_35" value="188963"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188963"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188963" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188963&#39;, &#39;1&#39; ); return( move_top(&#39;188963&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188964"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_36" value="188964"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188964"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188964" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188964&#39;, &#39;1&#39; ); return( move_top(&#39;188964&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188965"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_37" value="188965"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188965"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188965" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188965&#39;, &#39;1&#39; ); return( move_top(&#39;188965&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.7)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188966"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_38" value="188966"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188966"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188966" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188966&#39;, &#39;1&#39; ); return( move_top(&#39;188966&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188967"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_39" value="188967"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188967"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188967" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188967&#39;, &#39;1&#39; ); return( move_top(&#39;188967&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188968"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_40" value="188968"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188968"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188968" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188968&#39;, &#39;1&#39; ); return( move_top(&#39;188968&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188969"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_41" value="188969"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188969"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188969" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188969&#39;, &#39;1&#39; ); return( move_top(&#39;188969&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188970"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_42" value="188970"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188970"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188970" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188970&#39;, &#39;1&#39; ); return( move_top(&#39;188970&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188971"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_43" value="188971"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188971"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188971" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188971&#39;, &#39;1&#39; ); return( move_top(&#39;188971&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188972"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_44" value="188972"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188972"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188972" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188972&#39;, &#39;1&#39; ); return( move_top(&#39;188972&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188973"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_45" value="188973"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188973"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188973" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188973&#39;, &#39;1&#39; ); return( move_top(&#39;188973&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.8)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188974"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_46" value="188974"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188974"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188974" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188974&#39;, &#39;1&#39; ); return( move_top(&#39;188974&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.9)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188975"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_47" value="188975"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188975"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188975" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188975&#39;, &#39;1&#39; ); return( move_top(&#39;188975&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.9)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188976"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_48" value="188976"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188976"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188976" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188976&#39;, &#39;1&#39; ); return( move_top(&#39;188976&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.9)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188977"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_49" value="188977"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188977"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188977" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188977&#39;, &#39;1&#39; ); return( move_top(&#39;188977&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.9)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188978"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_50" value="188978"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188978"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188978" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188978&#39;, &#39;1&#39; ); return( move_top(&#39;188978&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188979"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_51" value="188979"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188979"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188979" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188979&#39;, &#39;1&#39; ); return( move_top(&#39;188979&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188980"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_52" value="188980"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188980"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188980" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188980&#39;, &#39;1&#39; ); return( move_top(&#39;188980&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188981"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_53" value="188981"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188981"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188981" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188981&#39;, &#39;1&#39; ); return( move_top(&#39;188981&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188982"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_54" value="188982"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188982"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188982" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188982&#39;, &#39;1&#39; ); return( move_top(&#39;188982&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188983"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_55" value="188983"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188983"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188983" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188983&#39;, &#39;1&#39; ); return( move_top(&#39;188983&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.10)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188984"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_56" value="188984"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188984"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188984" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188984&#39;, &#39;1&#39; ); return( move_top(&#39;188984&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188985"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_57" value="188985"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188985"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188985" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188985&#39;, &#39;1&#39; ); return( move_top(&#39;188985&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188986"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_58" value="188986"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188986"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188986" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188986&#39;, &#39;1&#39; ); return( move_top(&#39;188986&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188987"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_59" value="188987"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188987"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188987" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188987&#39;, &#39;1&#39; ); return( move_top(&#39;188987&#39;,&#39;0&#39;));"><b>健康保険部長(南堀弘)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188988"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_60" value="188988"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188988"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188988" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188988&#39;, &#39;1&#39; ); return( move_top(&#39;188988&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188989"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_61" value="188989"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188989"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188989" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188989&#39;, &#39;1&#39; ); return( move_top(&#39;188989&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188990"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_62" value="188990"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188990"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188990" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188990&#39;, &#39;1&#39; ); return( move_top(&#39;188990&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188991"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_63" value="188991"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188991"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188991" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188991&#39;, &#39;1&#39; ); return( move_top(&#39;188991&#39;,&#39;0&#39;));"><b>健康保険部長(南堀弘)</b></a></td><td nowrap="">(P.11)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188992"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_64" value="188992"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188992"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188992" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188992&#39;, &#39;1&#39; ); return( move_top(&#39;188992&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188993"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_65" value="188993"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188993"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188993" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188993&#39;, &#39;1&#39; ); return( move_top(&#39;188993&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188994"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_66" value="188994"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188994"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188994" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188994&#39;, &#39;1&#39; ); return( move_top(&#39;188994&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188995"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_67" value="188995"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188995"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188995" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188995&#39;, &#39;1&#39; ); return( move_top(&#39;188995&#39;,&#39;0&#39;));"><b>健康保険部長(南堀弘)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188996"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_68" value="188996"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188996"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188996" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188996&#39;, &#39;1&#39; ); return( move_top(&#39;188996&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188997"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_69" value="188997"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188997"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188997" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188997&#39;, &#39;1&#39; ); return( move_top(&#39;188997&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188998"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_70" value="188998"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188998"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188998" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188998&#39;, &#39;1&#39; ); return( move_top(&#39;188998&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="188999"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_71" value="188999"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i188999"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#188999" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i188999&#39;, &#39;1&#39; ); return( move_top(&#39;188999&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189000"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_72" value="189000"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189000"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189000" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189000&#39;, &#39;1&#39; ); return( move_top(&#39;189000&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.12)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189001"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_73" value="189001"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189001"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189001" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189001&#39;, &#39;1&#39; ); return( move_top(&#39;189001&#39;,&#39;0&#39;));"><b>24番(田中知久議員)</b></a></td><td nowrap="">(P.13)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189002"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_74" value="189002"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189002"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189002" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189002&#39;, &#39;1&#39; ); return( move_top(&#39;189002&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.13)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189003"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_75" value="189003"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189003"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189003" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189003&#39;, &#39;1&#39; ); return( move_top(&#39;189003&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.13)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189004"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_76" value="189004"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189004"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189004" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189004&#39;, &#39;1&#39; ); return( move_top(&#39;189004&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.13)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189005"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_77" value="189005"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189005"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189005" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189005&#39;, &#39;1&#39; ); return( move_top(&#39;189005&#39;,&#39;0&#39;));"><b>24番(田中知久議員)</b></a></td><td nowrap="">(P.13)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189006"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_78" value="189006"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189006"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189006" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189006&#39;, &#39;1&#39; ); return( move_top(&#39;189006&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.14)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189007"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_79" value="189007"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189007"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189007" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189007&#39;, &#39;1&#39; ); return( move_top(&#39;189007&#39;,&#39;0&#39;));"><b>政策調整部長(田村秀徳)</b></a></td><td nowrap="">(P.14)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189008"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_80" value="189008"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189008"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189008" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189008&#39;, &#39;1&#39; ); return( move_top(&#39;189008&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.14)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189009"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_81" value="189009"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189009"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189009" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189009&#39;, &#39;1&#39; ); return( move_top(&#39;189009&#39;,&#39;0&#39;));"><b>24番(田中知久議員)</b></a></td><td nowrap="">(P.14)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189010"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_82" value="189010"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189010"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189010" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189010&#39;, &#39;1&#39; ); return( move_top(&#39;189010&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189011"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_83" value="189011"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189011"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189011" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189011&#39;, &#39;1&#39; ); return( move_top(&#39;189011&#39;,&#39;0&#39;));"><b>総務部長(國松睦生)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189012"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_84" value="189012"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189012"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189012" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189012&#39;, &#39;1&#39; ); return( move_top(&#39;189012&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189013"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_85" value="189013"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189013"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189013" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189013&#39;, &#39;1&#39; ); return( move_top(&#39;189013&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189014"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_86" value="189014"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189014"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189014" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189014&#39;, &#39;1&#39; ); return( move_top(&#39;189014&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189015"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_87" value="189015"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189015"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189015" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189015&#39;, &#39;1&#39; ); return( move_top(&#39;189015&#39;,&#39;0&#39;));"><b>24番(田中知久議員)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189016"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_88" value="189016"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189016"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189016" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189016&#39;, &#39;1&#39; ); return( move_top(&#39;189016&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189017"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_89" value="189017"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189017"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189017" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189017&#39;, &#39;1&#39; ); return( move_top(&#39;189017&#39;,&#39;0&#39;));"><b>教育長(島崎輝久)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189018"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_90" value="189018"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189018"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189018" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189018&#39;, &#39;1&#39; ); return( move_top(&#39;189018&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189019"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_91" value="189019"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189019"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189019" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189019&#39;, &#39;1&#39; ); return( move_top(&#39;189019&#39;,&#39;0&#39;));"><b>26番(杉浦智子議員)</b></a></td><td nowrap="">(P.15)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189020"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_92" value="189020"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189020"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189020" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189020&#39;, &#39;1&#39; ); return( move_top(&#39;189020&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.17)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189021"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_93" value="189021"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189021"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189021" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189021&#39;, &#39;1&#39; ); return( move_top(&#39;189021&#39;,&#39;0&#39;));"><b>総務部長(國松睦生)</b></a></td><td nowrap="">(P.17)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189022"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_94" value="189022"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189022"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189022" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189022&#39;, &#39;1&#39; ); return( move_top(&#39;189022&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.17)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189023"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_95" value="189023"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189023"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189023" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189023&#39;, &#39;1&#39; ); return( move_top(&#39;189023&#39;,&#39;0&#39;));"><b>産業観光部長(井口敏行)</b></a></td><td nowrap="">(P.18)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189024"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_96" value="189024"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189024"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189024" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189024&#39;, &#39;1&#39; ); return( move_top(&#39;189024&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.18)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189025"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_97" value="189025"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189025"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189025" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189025&#39;, &#39;1&#39; ); return( move_top(&#39;189025&#39;,&#39;0&#39;));"><b>健康保険部長(南堀弘)</b></a></td><td nowrap="">(P.18)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189026"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_98" value="189026"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189026"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189026" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189026&#39;, &#39;1&#39; ); return( move_top(&#39;189026&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.18)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189027"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_99" value="189027"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189027"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189027" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189027&#39;, &#39;1&#39; ); return( move_top(&#39;189027&#39;,&#39;0&#39;));"><b>26番(杉浦智子議員)</b></a></td><td nowrap="">(P.18)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189028"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_100" value="189028"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189028"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189028" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189028&#39;, &#39;1&#39; ); return( move_top(&#39;189028&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.19)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189029"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_101" value="189029"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189029"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189029" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189029&#39;, &#39;1&#39; ); return( move_top(&#39;189029&#39;,&#39;0&#39;));"><b>総務部長(國松睦生)</b></a></td><td nowrap="">(P.19)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189030"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_102" value="189030"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189030"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189030" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189030&#39;, &#39;1&#39; ); return( move_top(&#39;189030&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189031"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_103" value="189031"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189031"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189031" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189031&#39;, &#39;1&#39; ); return( move_top(&#39;189031&#39;,&#39;0&#39;));"><b>産業観光部長(井口敏行)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189032"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_104" value="189032"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189032"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189032" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189032&#39;, &#39;1&#39; ); return( move_top(&#39;189032&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189033"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_105" value="189033"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189033"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189033" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189033&#39;, &#39;1&#39; ); return( move_top(&#39;189033&#39;,&#39;0&#39;));"><b>健康保険部長(南堀弘)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189034"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_106" value="189034"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189034"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189034" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189034&#39;, &#39;1&#39; ); return( move_top(&#39;189034&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189035"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_107" value="189035"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189035"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189035" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189035&#39;, &#39;1&#39; ); return( move_top(&#39;189035&#39;,&#39;0&#39;));"><b>26番(杉浦智子議員)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189036"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_108" value="189036"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189036"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189036" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189036&#39;, &#39;1&#39; ); return( move_top(&#39;189036&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189037"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_109" value="189037"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189037"></td><td nowrap="">◎</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189037" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189037&#39;, &#39;1&#39; ); return( move_top(&#39;189037&#39;,&#39;0&#39;));"><b>産業観光部長(井口敏行)</b></a></td><td nowrap="">(P.20)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189038"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_110" value="189038"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189038"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189038" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189038&#39;, &#39;1&#39; ); return( move_top(&#39;189038&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.21)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189039"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_111" value="189039"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189039"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189039" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189039&#39;, &#39;1&#39; ); return( move_top(&#39;189039&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.21)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189040"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_112" value="189040"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189040"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189040" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189040&#39;, &#39;1&#39; ); return( move_top(&#39;189040&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.22)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189041"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_113" value="189041"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189041"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189041" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189041&#39;, &#39;1&#39; ); return( move_top(&#39;189041&#39;,&#39;0&#39;));"><b>14番(谷祐治議員)</b></a></td><td nowrap="">(P.22)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189042"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_114" value="189042"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189042"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189042" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189042&#39;, &#39;1&#39; ); return( move_top(&#39;189042&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.23)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189043"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_115" value="189043"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189043"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189043" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189043&#39;, &#39;1&#39; ); return( move_top(&#39;189043&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.23)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189044"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_116" value="189044"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189044"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189044" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189044&#39;, &#39;1&#39; ); return( move_top(&#39;189044&#39;,&#39;0&#39;));"><b>４番(出町明美議員)</b></a></td><td nowrap="">(P.23)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189045"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_117" value="189045"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189045"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189045" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189045&#39;, &#39;1&#39; ); return( move_top(&#39;189045&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.24)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189046"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_118" value="189046"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189046"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189046" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189046&#39;, &#39;1&#39; ); return( move_top(&#39;189046&#39;,&#39;0&#39;));"><b>11番(井内律子議員)</b></a></td><td nowrap="">(P.25)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189047"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_119" value="189047"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189047"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189047" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189047&#39;, &#39;1&#39; ); return( move_top(&#39;189047&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.26)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189048"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_120" value="189048"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189048"></td><td nowrap="">◆</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189048" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189048&#39;, &#39;1&#39; ); return( move_top(&#39;189048&#39;,&#39;0&#39;));"><b>15番(立道秀彦議員)</b></a></td><td nowrap="">(P.26)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189049"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_121" value="189049"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189049"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189049" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189049&#39;, &#39;1&#39; ); return( move_top(&#39;189049&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.27)</td></tr></tbody></table>
+<script language="JavaScript">
+    var checkparent = function(){
+   	if (parent.movie_files) 
+   		return true;
+   	else
+   		return false;
+   	}
+</script>
+<a name="189050"></a><table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="W_122" value="189050"></td><td nowrap=""><img src="./hat0.gif" border="0" name="i189050"></td><td nowrap="">○</td><td nowrap=""><a href="http://otsu.gijiroku.com/voices/cgi/voiweb.exe?ACT=202&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&amp;TITL_SUBT=%97%DF%98a%81@%82Q%94N%81@%82V%8C%8E%93%C1%95%CA%89%EF%8Bc%81%7C07%8C%8E16%93%FA-07%8D%86&amp;KGNO=&amp;FINO=2101&amp;HATSUGENMODE=1&amp;HYOUJIMODE=0#189050" target="sidebar" onclick="if(checkparent()){video_disp(0);parent.movie_files.location.href=&#39;voiweb.exe?ACT=206&amp;KENSAKU=0&amp;SORT=0&amp;KTYP=0,1,2,3&amp;KGTP=1,2&amp;FYY=2020&amp;TYY=2020&#39;;}c_col( &#39;i189050&#39;, &#39;1&#39; ); return( move_top(&#39;189050&#39;,&#39;0&#39;));"><b>議長(八田憲児)</b></a></td><td nowrap="">(P.27)</td></tr></tbody></table>
+<table border="0"><tbody><tr><td nowrap=""><input type="checkbox" name="all_check_b" id="all_check_b" onclick="set_hat_check(&#39;all_check_b&#39;);"></td><td style="font-size:80%;"><label for="all_check_b">全ての発言を選択</label></td></tr><tr></tr></tbody></table>
+</form>
+　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br>　<br><script language="JavaScript">
+<!--
+	parent.comp_sidebar = -1;
+	if( parent.v_img_01=='-1' && parent.v_img_02=='-1' ){
+		parent.v_img_01='0';
+	}
+	c_col( parent.v_img_01+","+parent.v_img_02, '3' );
+//-->
+</script>
+
+
+</body></html>

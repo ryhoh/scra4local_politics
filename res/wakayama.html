@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)https://ssp.kaigiroku.net/tenant/wakayama/SpMinuteView.html?tenant_id=398&council_id=593&schedule_id=2 -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>会議録表示</title>
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/slick.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/remodal.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/remodal-default-theme.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/sp_normal_ab.css">
+<link rel="stylesheet" type="text/css" href="./wakayama_files/customize.css">
+<script src="./wakayama_files/underscore-min.js.ダウンロード"></script>
+<script src="./wakayama_files/moment.min.js.ダウンロード"></script>
+<script src="./wakayama_files/jquery.min.js.ダウンロード"></script>
+<script src="./wakayama_files/jquery-ui.min.js.ダウンロード"></script>
+<script src="./wakayama_files/slick.min.js.ダウンロード"></script>
+<script src="./wakayama_files/jquery.cookie.js.ダウンロード"></script>
+<script src="./wakayama_files/remodal.js.ダウンロード"></script>
+<script src="./wakayama_files/handlebars.js.ダウンロード"></script>
+<script src="./wakayama_files/namespace.js.ダウンロード"></script>
+<script src="./wakayama_files/config.js.ダウンロード"></script>
+<script src="./wakayama_files/util.js.ダウンロード"></script>
+<script src="./wakayama_files/component_ab.js.ダウンロード"></script>
+<script src="./wakayama_files/dialog_ab.js.ダウンロード"></script>
+<script src="./wakayama_files/template_ab.js.ダウンロード"></script>
+<script src="./wakayama_files/pages_ab.js.ダウンロード"></script>
+<script src="./wakayama_files/jquery.smoothscroll.js.ダウンロード"></script>
+<script src="./wakayama_files/jquery.scrollshow.js.ダウンロード"></script>
+<script src="./wakayama_files/app.js.ダウンロード"></script>
+<script src="./wakayama_files/tenant.js.ダウンロード"></script>
+<script src="./wakayama_files/option.js.ダウンロード"></script>
+<script src="./wakayama_files/message.js.ダウンロード"></script>
+<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/css3-mediaqueries.js"></script>
+<![endif]-->
+</head>
+<body class="blue sp-blue vsc-initialized" id="solid">
+<header class="fixed">
+	<a id="blockskip" href="https://ssp.kaigiroku.net/tenant/wakayama/SpMinuteView.html?tenant_id=398&amp;council_id=593&amp;schedule_id=2#contents">メインコンテンツへ移動</a>
+	<div class="inner">
+		<a href="https://ssp.kaigiroku.net/tenant/wakayama/index.html" tabindex="0"><img class="logo" src="./wakayama_files/dnplogo.png" alt="会議録検索システム"></a>
+		<nav>
+			<ul class="gnav">
+				<li class="subnav menu_icon" id="top_icon" tabindex="0"><span class="label_icon" id="subnav-top">TOP</span></li>
+				<li class="subnav menu_icon" id="browse_icon" tabindex="0"><span class="label_icon" id="subnav-browse">閲覧</span></li>
+				<li class="subnav menu_icon" id="search_icon" tabindex="0"><span class="label_icon" id="subnav-search">検索</span></li>
+				<li class="subnav menu_icon" id="config_icon" tabindex="0"><span class="label_icon" id="subnav-config">設定</span></li>
+			</ul>
+		</nav>
+		<section id="council_header">
+			<div class="council_name"><h1 id="council-title">和歌山市&nbsp;&nbsp;令和　２年　　６月　定例会&nbsp;&nbsp;06月12日－01号</h1></div>
+			<div class="minute_nav_area">
+				<ul class="minute_nav">
+					<li class="minute_icon" id="exit_icon" tabindex="0"><span class="label_icon mini" id="nav-exit">戻る</span></li>
+					<li class="minute_icon" id="schedule_icon" tabindex="0"><span class="label_icon mini" id="nav-schedule">日程</span></li>
+					<li class="minute_icon" id="filter_icon" tabindex="0" style="background-color: rgb(114, 114, 114);"><span class="label_icon mini" id="nav-filter">ヒットのみ</span></li>
+					<li class="minute_icon" id="notfilter_icon" style="background-color: rgb(114, 114, 114);" tabindex="0"><span class="label_icon mini" id="nav-notfilter">全て表示</span></li>
+					<li class="minute_icon" id="prevhit_icon" tabindex="0" style="background-color: rgb(114, 114, 114);"><span class="label_icon mini" id="nav-prevhit">前ヒット</span></li>
+					<li class="minute_icon" id="nexthit_icon" tabindex="0" style="background-color: rgb(114, 114, 114);"><span class="label_icon mini" id="nav-nexthit">次ヒット</span></li>
+					<li class="minute_icon" id="allcheck_icon" tabindex="0" style="display: list-item;"><span class="label_icon mini" id="nav-allcheck">全選択</span></li>
+					<li class="minute_icon" id="allnotcheck_icon" style="display: none;" tabindex="0"><span class="label_icon mini" id="nav-allnotcheck">選択解除</span></li>
+					<li class="minute_icon" id="allopen_icon" style="display:hidden" tabindex="0"><span class="label_icon mini" id="nav-allopen">発言内容</span></li>
+					<li class="minute_icon" id="allclose_icon" tabindex="0"><span class="label_icon mini" id="nav-allclose">発言者一覧</span></li>
+					<li class="minute_icon" id="edit_icon" tabindex="0"><span class="label_icon mini" id="nav-edit">印刷</span></li>
+				</ul>
+			</div>
+		</section>
+	</div><!-- /.inner -->
+</header>
+
+<div id="contents" class="with_fix">
+	<div id="wide">
+		<p id="v-message" class="fore-red tb-spacer"></p>
+		<div class="d-guide-message-speaker">「▲(▼)」ボタン・・・対象の発言の発言者(発言内容)を表示します。</div>
+		<div class="d-guide-message-check bottom-guide">チェックボックスにチェックを入れ(複数可)、「印刷」ボタンをクリックすることで、選択した発言の発言集作成画面を表示します。</div>
+<table id="lst-minute"><tbody>
+	<tr class="minute_title open " id="text_list_1">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.1 （名簿）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>令和　２年　　６月　定例会
+
+　　　　　　　　　　　　　　　　令和２年
+　　　　　　　　　　和歌山市議会６月定例会会議録　第１号
+　　　　　　　　　　　　令和２年６月１２日（金曜日）
+　　　　　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+議事日程第１号
+令和２年６月１２日（金）午前１０時開議
+第１　会議録署名議員の指名
+第２　会期決定
+第３　発議第１号　和歌山市議会政務活動費の交付に関する条例の一部を改正する条例の制定について
+第４　永年在職議員の表彰
+第５　報第１号　市長専決処分事項の報告について
+第６　報第２号　令和元年度和歌山市一般会計繰越明許費繰越計算書
+第７　報第３号　令和元年度和歌山市一般会計事故繰越し繰越計算書
+第８　報第４号　令和元年度和歌山市卸売市場事業特別会計繰越明許費繰越計算書
+第９　報第５号　令和元年度和歌山市駐車場管理事業特別会計繰越明許費繰越計算書
+第１０　報第６号　令和元年度和歌山市水道事業会計予算繰越計算書
+第１１　報第７号　令和元年度和歌山市下水道事業会計予算繰越計算書
+第１２　法人の経営状況を説明する書類について
+第１３　承第１号　市長専決処分事項の承認を求めるについて
+第１４　承第２号　市長専決処分事項の承認を求めるについて
+第１５　承第３号　市長専決処分事項の承認を求めるについて
+第１６　承第４号　市長専決処分事項の承認を求めるについて
+第１７　承第５号　市長専決処分事項の承認を求めるについて
+第１８　議案第１号　令和２年度和歌山市一般会計補正予算（第５号）
+第１９　議案第２号　和歌山市議会の議決すべき事件を定める条例の一部を改正する条例の制定について
+第２０　議案第３号　和歌山市職員服務宣誓条例の一部を改正する条例の制定について
+第２１　議案第４号　和歌山市新型コロナウイルスささえ愛基金条例の制定について
+第２２　議案第５号　和歌山市税条例の一部を改正する条例の制定について
+第２３　議案第６号　和歌山市手数料条例の一部を改正する条例の制定について
+第２４　議案第７号　和歌山市隣保館条例の一部を改正する条例の制定について
+第２５　議案第８号　和歌山市小児慢性特定疾病児童等に係る日常生活用具の給付に関する条例の一部を改正する条例の制定について
+第２６　議案第９号　和歌山市行政手続における特定の個人を識別するための番号の利用等に関する法律に基づく個人番号の利用及び特定個人情報の提供に関する条例の一部を改正する条例の制定について
+第２７　議案第１０号　和歌山市特別償却設備に係る固定資産税の不均一課税に関する条例の一部を改正する条例の制定について
+第２８　議案第１１号　和歌山市立和歌の浦アート・キューブ条例の一部を改正する条例の制定について
+第２９　議案第１２号　和歌山市消防団員等公務災害補償条例の一部を改正する条例の制定について
+第３０　議案第１３号　市道路線認定について
+第３１　議案第１４号　市道路線変更について
+第３２　議案第１５号　市道路線廃止について
+第３３　議案第１６号　委託契約の締結について
+第３４　議案第１７号　損害賠償の額を定めるについて
+第３５　議案第１８号　旧慣による公有財産の使用廃止について
+第３６　議案第１９号　指定管理者の指定について
+第３７　議案第２０号　工事請負契約の締結について
+第３８　議案第２１号　工事請負契約の締結について
+第３９　議案第２２号　工事請負契約の締結について
+第４０　議案第２３号　物品購入契約について
+第４１　議案第２４号　物品購入契約について
+　　　　　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+会議に付した事件
+日程第１　会議録署名議員の指名
+日程第２　会期決定
+日程第３　発議第１号　和歌山市議会政務活動費の交付に関する条例の一部を改正する条例の制定について
+副議長の辞職について
+副議長の選挙
+日程第４　永年在職議員の表彰
+日程第５　報第１号　市長専決処分事項の報告についてから
+日程第１１　報第７号　令和元年度和歌山市下水道事業会計予算繰越計算書まで
+日程第１２　法人の経営状況を説明する書類について
+日程第１３　承第１号　市長専決処分事項の承認を求めるについてから
+日程第４１　議案第２４号　物品購入契約についてまで
+　　　　　－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+出席議員（３８名）
+　　１番　　井本有一君
+　　２番　　中村朝人君
+　　３番　　赤松良寛君
+　　４番　　浜田真輔君
+　　５番　　堀　良子君
+　　６番　　西風章世君
+　　７番　　山中敏生君
+　　８番　　川端康史君
+　　９番　　永野裕久君
+　１０番　　中庄谷孝次郎君
+　１１番　　山野麻衣子君
+　１２番　　中村元彦君
+　１３番　　中谷謙二君
+　１４番　　丹羽直子君
+　１５番　　森下佐知子君
+　１６番　　坂口多美子君
+　１７番　　吉本昌純君
+　１８番　　園内浩樹君
+　１９番　　中塚　隆君
+　２０番　　薮　浩昭君
+　２１番　　山本忠相君
+　２２番　　芝本和己君
+　２３番　　戸田正人君
+　２４番　　松井紀博君
+　２５番　　井上直樹君
+　２６番　　古川祐典君
+　２７番　　姫田高宏君
+　２８番　　南畑幸代君
+　２９番　　尾崎方哉君
+　３０番　　奥山昭博君
+　３１番　　中尾友紀君
+　３２番　　松本哲郎君
+　３３番　　寒川　篤君
+　３４番　　北野　均君
+　３５番　　佐伯誠章君
+　３６番　　山本宏一君
+　３７番　　宇治田清治君
+　３８番　　遠藤富士雄君
+　　　－－－－－－－－－－－－－－－
+説明のため出席した者の職氏名
+　市長　　　　　　　　　尾花正啓君
+　副市長　　　　　　　　森井　均君
+　副市長　　　　　　　　信夫秀紀君
+　市長公室長　　　　　　犬塚康司君
+　総務局長　　　　　　　尾崎拓司君
+　財政局長　　　　　　　川嶋正起君
+　市民環境局長　　　　　和田年晃君
+　福祉局長　　　　　　　宮崎　久君
+　産業交流局長　　　　　榊原佳寿君
+　公営企業管理者　　　　瀬崎典男君
+　企業局長　　　　　　　上西人支君
+　人事委員会委員長　　　水野八朗君
+　　　－－－－－－－－－－－－－－－
+出席事務局職員
+　事務局長　　　　　　　中野光進
+　事務局副局長　　　　　中西　太
+　議事調査課長　　　　　中村　保
+　議事調査課副課長　　　志賀政廣
+　調査広報班長　　　　　亀岡伸次
+　議事班長　　　　　　　森本剛史
+　企画員　　　　　　　　窪田義孝
+　事務主査　　　　　　　國定正幹
+　事務主任　　　　　　　中本庸介
+　事務主任　　　　　　　堀川陽平
+　事務副主任　　　　　　中西真央
+　事務副主任　　　　　　北浦愼也
+　　　－－－－－－－－－－－－－－－
+　　　　　　　　　　午前１０時２０分開会
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_3">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.4 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　ただいまから令和2年6月12日招集の和歌山市議会定例会を開会し、直ちに本日の会議を開きます。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_4">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.4 市長の挨拶</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△市長の挨拶　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_5">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.4 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　日程に入るに先立ち、市長から招集の挨拶があります。－－尾花市長。
+　〔市長尾花正啓君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_6">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.4 市長（尾花正啓君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎市長（尾花正啓君）　おはようございます。開会に当たり、御挨拶申し上げます。
+　本日ここに市議会6月定例会を招集いたしましたところ、議員の皆様におかれましては大変御多忙にもかかわらず御出席いただき、誠にありがとうございます。
+　初めに、世界中で猛威を振るい続けている新型コロナウイルス感染症は、国内においては5月25日に全ての都道府県で緊急事態宣言が解除されました。
+　本市では、ここ30日間、新たな感染者の発生が抑えられており、これはひとえに市民の皆様、事業者の皆様、そして医療関係者の皆様の大変な御努力、御尽力のたまものであり、深く感謝申し上げます。
+　しかし、海外では、今なお多くの感染者が発生しており、国内においてもまだまだ予断を許さない状況です。
+　本市では、5月20日に、ドライブスルー方式での和歌山市ＰＣＲ検査センターを保健所内に設置しました。ＰＣＲ検査をより受けやすくするとともに、電話診療やオンライン診療を可能とし、病院を訪れることなく検査が行えることにもなり、医療現場での感染リスクを抑制することができます。
+　今後、さらに第2波、第3波への対応力を高めるため、保健、医療の体制強化に努めてまいります。
+　100年に一度と言われる今回の新型コロナウイルス感染症の流行による経済や社会への影響は、計り知れないものがあります。市を挙げて地域経済や市民生活を一日も早く回復し、地域の活力を取り戻さなければなりません。
+　本市では、これまで、国の特別定額給付金や子育て世帯臨時特例給付金に加え、妊婦さん応援事業やひとり親家庭支援事業、中小企業サポート事業など、本市の市民生活や家庭学習、経済活動に対する独自の支援策に取り組んでおります。これらをできるだけ早く確実に必要とする方々にお届けするとともに、国の補正も活用しながら、必要な施策を速やかに実施してまいります。
+　これからは、一人一人が感染防止対策を講じながら日常生活を営むために、これまでの流行期間で定着したマスク、手洗い、3つの密を避けるなどの基本的な感染防止対策の継続と併せ、テレワークやキャッシュレス決済、オンライン学習など、デジタル化やＩＴ化を進め、新しい生活様式への変革を進めてまいります。
+　また、一昨日には、近畿地方が梅雨入りしましたが、今後の大雨・台風シーズンにおける災害に対しても、感染拡大防止に留意した避難対策が喫緊の課題です。避難所の分散や消毒液など、住民避難における安全確保と感染拡大防止対策を講じてまいります。
+　未来に向けた歯車も確実に動いております。去る6月5日、大学誘致に続くまちなか活性化事業の一つである新しい市民図書館と、南海和歌山市駅ビルの市街地再開発・キーノ和歌山がグランドオープンしました。
+　複合施設のキーノ和歌山は、和歌山の多くの名産品や人気の飲食店など、まさに和歌山の魅力が凝縮された施設となりました。
+　また、併設した市民図書館は、幅広い世代にこれまでにない読書を通した新しいライフスタイルを提供できる図書館です。市民や通勤・通学者の学びや居場所、交流の拠点として、また、近隣の市立博物館や整備中の和歌山城ホールとともに本市の文化や知の拠点として、そして和歌山城と併せ、観光やまち歩きの拠点として、末永く皆さんに愛され、未来に希望の持てる象徴的な存在になるよう成長させてまいります。
+　最後に、本市議会定例会におきましては、一般会計補正予算案をはじめ、条例の制定等、諸議案を提出しております。議案内容につきましては後ほど御説明いたしますので、議員の皆様におかれましては、何とぞ慎重御審議の上、御賛同賜りますようお願い申し上げ、招集の御挨拶といたします。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_7">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 議長報告</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△議長報告　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_8">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　この際、報告します。
+　去る2月定例会において議決した令和2年5月19日の副議長の橋本市への議員派遣の件については、新型コロナウイルス感染症の影響を受け、和歌山県市議会議長会第1回総会の開催が中止されたため、議員派遣を取りやめましたので、念のため報告します。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_9">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 諸般の報告</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△諸般の報告　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_10">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、諸般の報告をさせます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_11">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 事務局長（中野光進君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎事務局長（中野光進君）　令和2年6月5日付、和財第64号をもって、市長から本日招集の市議会定例会に提出する議案が送付されております。議案はお手元に配付いたしております。
+　次に、監査委員から、令和2年5月28日付、和監査第35号、令和2年6月4日付、和監査第41号をもって、それぞれ例月出納検査の結果に関する報告が参っております。写しはお手元に配付してございます。
+　次に、令和2年6月12日付、議員宇治田清治君、中尾友紀君、松井紀博君、姫田高宏君、山本忠相君、浜田真輔君、山野麻衣子君、以上7人の諸君から、和歌山市議会政務活動費の交付に関する条例の一部を改正する条例の制定についての議案が提出されました。発議第1号としてお手元に配付いたしております。
+　以上でございます。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_12">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 日程第１</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第１　会議録署名議員の指名
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_13">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.5 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　日程第1、会議録署名議員の指名を行います。
+　本日の会議録署名議員は、会議規則第80条の規定により、議長において
+　　　宇治田清治君
+　　　中尾友紀君
+　　　松井紀博君
+　以上3人の諸君を指名します。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_14">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 日程第２</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第２　会期決定
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_15">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第2、会期決定を議題とします。
+　お諮りします。
+　本定例会の会期は、本日から7月1日までの20日間としたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_16">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、会期は本日から7月1日までの20日間と決しました。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_17">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 日程第３</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第３　発議第１号　和歌山市議会政務活動費の交付に関する条例の一部を改正する条例の制定について
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_18">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第3、発議第1号、和歌山市議会政務活動費の交付に関する条例の一部を改正する条例の制定についてを議題とします。
+　提出者から提案理由の説明を求めます。宇治田清治君。－－37番。
+　〔３７番宇治田清治君登壇〕（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_19">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 ３７番（宇治田清治君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◆３７番（宇治田清治君）　ただいま上程されました発議第1号につきまして、提出者を代表して提案理由の説明を申し上げます。
+　新型コロナウイルス感染症の感染拡大により、雇用や教育、企業活動など、あらゆる分野において多大な影響が生じており、市民の皆様は、まさに今、この時期をどのようにしのいでいくのか、大変な御苦労をされております。
+　このような状況から、国や県とともに、行政として一刻も早い的確な支援が求められている中で、和歌山市議会では、これまで臨時市議会や議会運営委員会において、関連事案や事業について、より有効な手だてとなるよう審議を重ね、市民生活に対する積極的かつ早急な支援の実現に努めてきたところであり、今後も全力で取り組んでまいる所存であります。
+　本案は、新型コロナウイルス感染症の感染拡大防止並びに市民生活及び地域経済への影響の最小化に向けた本市事業の実施に必要となる財源を確保するに当たり、令和2年度の政務活動費を特例減額するため、所要の改正を行おうとするものであります。
+　文案は、お手元に配付のとおりでありますので、何とぞ同僚各位の御賛同をよろしくお願い申し上げます。（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_20">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑に入ります。
+　質疑はありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_21">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑なしと認めます。
+　お諮りします。
+　本件は、会議規則第36条第3項の規定により、委員会の付託を省略することに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_22">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.6 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、そのように決しました。
+　討論に入ります。
+　討論はありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_23">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　討論なしと認めます。
+　発議第1号を採決します。
+　本件は、原案のとおり決することに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_24">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、本件は原案のとおり可決と決しました。
+　お諮りします。
+　ただいま議案が議決されましたが、その条項、字句、数字、その他整理を要するものについては、その整理を議長に委任されたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_25">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、そのように決しました。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_26">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　報告します。
+　副議長松本哲郎君から副議長の辞職願が提出されました。
+　お諮りいたします。
+　この際、副議長の辞職についてを日程に追加し、議題とすることに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_27">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、この際、副議長の辞職についてを日程に追加し、議題とすることに決しました。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_28">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 副議長の辞職について</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△副議長の辞職について　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_29">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　副議長の辞職についてを議題とします。
+　地方自治法第117条の規定により、松本哲郎君の退席を求めます。
+　〔副議長松本哲郎君退席〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_30">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　辞職願を朗読させます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_31">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 事務局長（中野光進君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎事務局長（中野光進君）　
+　　　　　　　辞職願
+　今般一身上の都合により、副議長を辞職したいので許可されるよう願い出ます。
+　　　　　　　　　　　　令和2年6月12日
+　　　　　　　　和歌山市議会副議長
+　　　　　　　　　　　　　　　　松本哲郎
+　和歌山市議会議長　井上直樹殿
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_32">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　お諮りします。
+　松本哲郎君の副議長の辞職を許可することに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_33">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、松本哲郎君の副議長の辞職を許可することに決しました。
+　〔３２番松本哲郎君着席〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_34">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　ただいま副議長が欠員となっています。
+　お諮りします。
+　この際、副議長の選挙を日程に追加し、選挙を行いたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_35">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、この際、副議長の選挙を日程に追加し、直ちに選挙を行います。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_36">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 副議長の選挙</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△副議長の選挙　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_37">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　議場の閉鎖を命じます。
+　〔議場閉鎖〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_38">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.7 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　ただいまの出席議員数は38人であります。
+　投票用紙を配付させます。
+　〔投票用紙配付〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_39">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　投票用紙の配付漏れはありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_40">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　配付漏れなしと認めます。
+　投票箱を点検させます。
+　〔投票箱点検〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_41">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　異状なしと認めます。
+　念のため申し上げます。
+　投票は単記無記名であります。投票用紙に被選挙人の氏名を記載の上、点呼に応じて順次投票を願います。
+　点呼を命じます。
+　〔中西事務局副局長・氏名点呼〕
+　井本有一君、中村朝人君、赤松良寛君、浜田真輔君、堀良子君、西風章世君、山中敏生君、川端康史君、永野裕久君、中庄谷孝次郎君、山野麻衣子君、中村元彦君、中谷謙二君、丹羽直子君、森下佐知子君、坂口多美子君、吉本昌純君、園内浩樹君、中塚隆君、薮浩昭君、山本忠相君、芝本和己君、戸田正人君、松井紀博君、古川祐典君、姫田高宏君、南畑幸代君、尾崎方哉君、奥山昭博君、中尾友紀君、松本哲郎君、寒川篤君、北野均君、佐伯誠章君、山本宏一君、宇治田清治君、遠藤富士雄君、井上直樹君。
+　〔各議員投票〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_42">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　投票漏れはありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_43">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　投票漏れなしと認めます。
+　投票を終了します。
+　議場の閉鎖を解きます。
+　〔議場開鎖〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_44">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　開票を行います。
+　会議規則第30条第2項の規定により、立会人に堀良子君、川端康史君、中村元彦君、以上3人の諸君を指名します。
+　よって、3君の立会いを願います。
+　〔立会人所定の位置に着く〕
+　〔投票点検〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_45">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　選挙の結果を報告します。
+　　投票総数　　３８票
+　これは、先ほどの出席議員数に符合しております。
+　そのうち
+　　有効投票　　３８票
+　　有効投票中
+　　　奥山昭博君　　３８票
+　以上のとおりであります。
+　この選挙の法定得票数は10票であります。
+　よって、奥山昭博君が副議長に当選されました。（拍手）
+　ただいま副議長に当選されました奥山昭博君が議場におられますので、本席から会議規則第31条第2項の規定による告知をします。－－30番。
+　〔副議長奥山昭博君登壇〕（拍手）
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_46">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 副議長の挨拶</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△副議長の挨拶　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_47">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.8 副議長（奥山昭博君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◆副議長（奥山昭博君）　一言御挨拶を申し上げます。
+　ただいま、先輩同僚議員の御厚情によりまして、副議長に当選させていただきました。心より御礼申し上げます。ありがとうございました。
+　副議長の重責を果たすことができるのか不安でいっぱいでありますが、井上議長の補佐役として、また、歴史と伝統のあるこの和歌山市議会の名に恥じないよう、全力で取り組んでまいる覚悟でございます。今後とも、皆様方の御指導、御鞭撻をよろしくお願い申し上げまして、就任の御挨拶とさせていただきます。
+　本当にありがとうございました。（拍手）
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_48">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 松本議員の挨拶</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△松本議員の挨拶　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_49">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　松本哲郎君。－－32番。
+　〔３２番松本哲郎君登壇〕（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_50">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 ３２番（松本哲郎君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◆３２番（松本哲郎君）　退任に当たり、一言御礼を申し上げます。
+　昨年、皆様方の御厚情をいただき、副議長に就任させていただきましてからはや1年になります。在任期間中は、議長をはじめ先輩同僚議員の皆様方の御理解と御協力に支えられ、無事退任の日を迎えることができましたことを心から感謝申し上げます。
+　今後は、副議長として学んだ経験を生かし、和歌山市政のさらなる発展、市民福祉の向上を目指して精進してまいる所存でございます。
+　皆様方のより一層の御指導、御鞭撻をお願い申し上げまして、誠に簡単ではございますが、御礼の言葉とさせていただきたいと思います。
+　本当にありがとうございました。（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_51">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　しばらく休憩します。
+　　　　　　　　　　午前１０時４８分休憩
+　　　－－－－－－－－－－－－－－－
+　　　　　　　　　　午後１時１０分再開
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_52">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　休憩前に引き続き、会議を開きます。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_53">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長報告</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△議長報告　
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_54">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　この際、報告します。
+　6月12日付、議会運営委員会委員の奥山昭博君、宇治田清治君の両君から委員の辞任願が提出されましたので、同日これを許可しました。
+　これに伴い、同委員会委員に2人の欠員が生じましたので、同委員の補充選任については、委員会条例第6条の規定により、同日付、中谷謙二君、薮浩昭君の両君を指名しました。
+　また、6月12日付、常任委員会委員の所属変更について、委員会条例第6条の規定により、総務委員会委員の中谷謙二君が厚生委員会へ、厚生委員会委員の古川祐典君が総務委員会へ、それぞれ委員会の所属を変更したい旨の申出がありましたので、同日付、議長において申出のとおり変更しました。
+　また、6月12日付、議会運営委員会委員長から、中谷謙二君が委員長に互選された旨の報告がありました。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_55">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 日程第４</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第４　永年在職議員の表彰
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_56">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第4、永年在職議員の表彰を議題とします。
+　お諮りします。
+　本市議会議員として、在職25年に達せられました姫田高宏君、北野均君の両君に対し、その多年にわたる功労をたたえるために、先例により永年在職議員として表彰することにしたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_57">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.9 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、両君を永年在職議員として表彰することに決しました。
+　お諮りします。
+　ただいま決しました永年在職議員に対する表彰及びその取扱いについては、議長に委任の上、この際、議場において直ちに表彰を行いたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_58">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.10 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、そのように決しました。
+　これより、永年在職議員の表彰を行います。
+　姫田高宏君、北野均君の両君は登壇を願います。
+　〔２７番姫田高宏君、３４番北野　均君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_59">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.10 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　
+　　　　　　　表彰状
+　　　　　和歌山市議会議員　姫田高宏殿
+　あなたは本市議会議員として在職25年の長きにわたり市政発展のために尽くされた功績は多大であります。
+　よってここに記念品を贈り表彰いたします。
+　　令和2年6月12日
+　　　　　　　　　　　　　和歌山市議会
+　〔表彰状贈呈〕（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_60">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.10 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　
+　　　　　　　表彰状
+　　　　　和歌山市議会議員　北野　均殿
+　以下同文でございます。
+　おめでとうございます。
+　〔表彰状贈呈〕（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_61">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.10 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　ただいま永年在職議員として表彰を受けられましたお二人に対し、一言お祝いを申し上げます。
+　お二人には、本市議会議員として25年の長きにわたり、市政の発展と市民福祉の向上のため献身的な御活躍を賜り、輝かしい御功績を収められましたことは、誠に御同慶に堪えません。
+　私たちは、長年におけるその御功労に対し、深甚なる敬意を表しますとともに、栄えある議会表彰を心よりお喜び申し上げます。
+　お二人には、今後とも御自愛くださいまして、本市発展のためにより一層御活躍賜りますようお願い申し上げ、お祝いの言葉とさせていただきます。
+　おめでとうございます。（拍手）
+　北野均君。－－34番。
+　〔３４番北野　均君登壇〕（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_62">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.10 ３４番（北野均君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◆３４番（北野均君）　ただいま、姫田議員と私、北野の両名が、和歌山市議会議員として在職25年になるに当たり、和歌山市議会永年在職表彰を受けました。身に余る光栄でございます。
+　年長のゆえを持ちまして、私からお礼の御挨拶を申し上げます。
+　初めに、現在に至って私どもをお支えくださり、御指導くださった和歌山市の皆様、心を同じくしてくださった多くの皆様に衷心より熱くお礼を申し上げます。
+　さらに、この間、先輩同僚の議員、市長はじめ行政職の皆様のお力添えをいただきながら、議員として何とか仕事に取り組んでまいることができましたことに心から感謝を申し上げます。
+　私が、市政に対し、政治家として出発したのは平成7年で、当時、トップリーダーの選挙に関して市政が大きく揺らいでいました。一方で、紀淡海峡への架橋や京奈和自動車道という大構想が行政課題として取り上げられた時期でもあり、そうした政治状況に対し、ぜひとも直接関わりたいという一念で市議会議員選挙に立候補し、幸いにも当選させていただきました。
+　以来、四半世紀、25年がたちました。この間、和歌山市長に4人の方が就任され、市政の状況は様々な変化を来しました。議員の方々の顔ぶれも変わり、議会のありようも一新されてきております。
+　この上は、現在の主張を受け止めながら、議員活動から得た経験を生かしつつ、このたびの受賞を契機とし、心機一転、和歌山市政の発展に少しでも寄与できるよう、一層の精進を積み、励んでまいることをお誓いし、感謝、お礼の言葉とさせていただきます。
+　ありがとうございました。（拍手）
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_63">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　この際、議員各位に申し上げます。
+　新型コロナウイルス感染症の防止及び感染リスク軽減の観点から、申合せのとおり、随時、議員の離席を認めることとします。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_64">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 日程第５</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第５　報第１号　市長専決処分事項の報告についてから
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_65">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 日程第１１</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第１１　報第７号　令和元年度和歌山市下水道事業会計予算繰越計算書まで
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_66">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第5、報第1号、市長専決処分事項の報告についてから、日程第11、報第7号、令和元年度和歌山市下水道事業会計予算繰越計算書までの7件の報告を一括して行います。
+　当局から報告を求めます。－－川嶋財政局長。
+　〔財政局長川嶋正起君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_67">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 財政局長（川嶋正起君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎財政局長（川嶋正起君）　報第1号から報第5号までについて、一括して御説明申し上げます。
+　議案書の1ページをお開き願います。
+　報第1号は、市長専決処分事項の報告でございまして、清掃自動車の物損事故による損害賠償について、地方自治法第180条第1項の規定に基づき、市長専決処分により措置いたしましたので、同条第2項の規定により報告するものでございます。
+　2ページをお開き願います。
+　報第2号、14ページの報第4号及び16ページの報第5号は、2月定例市議会で議決をいただきました繰越明許費予算に基づく繰越計算書の報告で、また、12ページの報第3号は、事故繰越し繰越計算書の報告でございます。
+　まず、2ページの報第2号は、令和元年度和歌山市一般会計繰越明許費繰越計算書で、総額110億8,492万6,423円を－－12ページをお開き願います－－報第3号は、令和元年度和歌山市一般会計事故繰越し繰越計算書で、道路維持事業におきまして、入札不調により、工事請負契約の締結に不測の日時を要したため9,226万2,500円を－－14ページをお開き願います－－報第4号は、令和元年度和歌山市卸売市場事業特別会計繰越明許費繰越計算書で14億2,656万2,000円を－－16ページをお開き願います－－報第5号は、令和元年度和歌山市駐車場管理事業特別会計繰越明許費繰越計算書で、総額1億2,205万2,000円を、いずれも令和2年度に繰越しいたしましたので、報告するものでございます。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_68">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　上西企業局長。
+　〔企業局長上西人支君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_69">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.11 企業局長（上西人支君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎企業局長（上西人支君）　企業局関係について御説明いたします。
+　議案書18ページをお開き願います。
+　報第6号は、令和元年度和歌山市水道事業会計予算繰越計算書で、配水管整備事業において、事業費3億5,052万4,089円を－－20ページをお願いいたします－－報第7号は、令和元年度和歌山市下水道事業会計予算繰越計算書で、管渠整備事業において、事業費24億2,950万8,065円を、ポンプ場整備事業において、事業費10億9,433万2,835円を、処理場整備事業において、事業費8億998万914円を、地方公営企業法第26条第1項の規定により、それぞれ繰り越すものでございます。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_70">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.12 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑はありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_71">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.12 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑なしと認めます。
+　以上で、報第1号から同第7号までの7件の報告を終わります。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_72">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.12 日程第１２</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第１２　法人の経営状況を説明する書類について
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_73">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.12 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第12、法人の経営状況を説明する書類についてであります。
+　本件は、地方自治法第243条の3第2項の規定により、和歌山市清掃株式会社、公益財団法人和歌山市文化スポーツ振興財団、公益財団法人和歌山市中小企業勤労者福祉サービスセンター、公益財団法人和歌山地域地場産業振興センター及び株式会社ぶらくりの経営状況を説明する書類が提出されたものであります。
+　この際、念のためこの書類について当局から説明を求めます。－－和田市民環境局長。
+　〔市民環境局長和田年晃君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_74">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.12 市民環境局長（和田年晃君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎市民環境局長（和田年晃君）　和歌山市清掃株式会社の経営状況について御説明申し上げます。
+　法人の経営状況を説明する書類についての1ページをお開きください。
+　令和2年度事業計画です。
+　和歌山市の生活環境の保全と公衆衛生の向上を目的とし、本町地区をはじめ11地区の一部の一般家庭や事業所及び官公庁のし尿くみ取り、浄化槽清掃並びに浄化槽保守点検など、合計2,702か所の事業を計画しています。
+　次に、令和元年度事業報告です。
+　し尿くみ取り1,285か所、浄化槽清掃1,211か所、浄化槽保守点検188か所の業務を行いました。
+　2ページをお開き願います。
+　以上の結果、し尿くみ取り事業、浄化槽清掃事業及び浄化槽保守点検事業の3事業の当期売上高は1億6,195万6,754円で、前期と比べ7万7,114円の増収となりました。
+　令和元年5月22日に定時株主総会を開催し、取締役会は当期中に4回開催しました。
+　次に、令和元年度決算について御説明します。
+　3ページをお開き願います。
+　貸借対照表です。
+　資産の部については、流動資産4億5,011万8,942円、固定資産1億4,940万1,565円で、資産の部の合計は5億9,952万507円です。
+　次に、負債の部については、流動負債2,142万9,700円、固定負債8,121万3,109円で、負債の部の合計は1億264万2,809円です。
+　純資産の部については、資本金1,130万円、利益準備金282万5,000円、別途積立金2億5,000万円、繰越利益剰余金2億3,275万2,698円で、純資産の部の合計は4億9,687万7,698円となり、負債及び純資産の部の合計は5億9,952万507円です。
+　次に、4ページをお願いします。
+　損益計算書です。
+　売上高1億6,195万6,754円、販売費及び一般管理費は1億2,762万7,566円で、差引営業利益金額は3,432万9,188円です。
+　営業外収益は164万4,944円で、経常利益金額は3,597万4,132円です。
+　特別利益は59万3,800円です。
+　したがいまして、税引前当期純利益金額は3,656万7,932円となり、税引後当期純利益金額は2,533万2,980円です。
+　5ページをお開きください。
+　株主資本等変動計算書です。貸借対照表の純資産の部の株式資本の前期から当期に至るまでの変動を示す計算書類です。
+　次に、個別注記表。
+　6ページをお願いします。
+　当該事業年度中の剰余金の配当は、令和元年5月22日定時株主総会決議分として、発行済株式1万1,300株に対して、1株当たり410円で、剰余金の配当総額は463万3,000円です。
+　また、当該事業年度後の剰余金の配当は、発行済株式1万1,300株に対し、1株当たり450円で、剰余金の配当の総額は508万5,000円です。
+　7ページをお開きください。
+　附属明細書として、帳簿価額における資産の部の固定資産の明細です。
+　次に、引当金の明細については、各種引当金となっています。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_75">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.13 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　尾崎総務局長。
+　〔総務局長尾崎拓司君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_76">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.13 総務局長（尾崎拓司君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎総務局長（尾崎拓司君）　公益財団法人和歌山市文化スポーツ振興財団の経営状況について御説明いたします。
+　法人の経営状況を説明する書類の8ページをお開きください。
+　初めに、令和2年度の事業計画でございます。
+　和歌山市からの受託事業として、和歌山城公園内の駐車場2か所、和歌山駅西口広場1か所の計3か所の駐車場管理事業、和歌山市民会館はじめ16施設の管理運営事業、史跡の管理等の文化財保護事業、こども科学館の一部業務受託として発明創作事業を実施するものです。
+　また、自主事業として、岡公園駐車場の駐車場管理運営事業、市民体育館等に設置の自動販売機管理運営事業、わかやまパリ祭等の文化振興事業、健康ストレッチ教室等のスポーツ振興事業、親子おりがみ教室等のコミュニティ振興事業、史跡和歌山城等の埋蔵文化財発掘調査事業、長屋門の管理事業、新たに和歌山城登城記念御城印販売を行うものでございます。
+　次に、令和元年度の事業報告でございます。
+　和歌山市からの受託事業として、和歌山城公園内の駐車場2か所、和歌山駅西口広場1か所の計3か所の駐車場管理事業、和歌山市民会館はじめ16施設の管理運営事業、文化財保護事業として－－9ページをお願いします－－史跡、文化財施設、設備の維持管理ほか、出土遺物の整理等を行いました。
+　また、こども科学館発明創作事業の一部業務受託事業を行いました。
+　自主事業では、岡公園駐車場の駐車場管理運営事業、市民体育館等に設置の自動販売機管理運営事業、文化・スポーツ・コミュニティ振興事業として、和歌山市民会館、各体育館、各コミュニティセンター等でシャンソン・ロビーコンサートをはじめとする289事業、埋蔵文化財発掘調査事業として、継続中も含め、津秦Ⅱ遺跡はじめ23件の発掘調査を行いました。
+　10ページをお開きください。
+　また、普及啓発事業として、和歌山城跡第39次発掘調査、府中遺跡第6次調査の現地説明会の実施、和歌山市役所市民ギャラリーでの発掘調査情報展、報告書の刊行、展示協力や講師の派遣を行いました。
+　また、長屋門管理事業として、旧大村家住宅長屋門の公開を行いました。
+　次に、令和元年度の決算について御説明いたします。
+　11ページをお願いします。
+　初めに、貸借対照表でございます。
+　1、資産の部では、流動資産と固定資産を合わせまして、資産合計5億3,717万1,568円、2、負債の部では、流動負債と固定負債を合わせまして、負債合計4億67万5,807円－－12ページをお開きください－－3、正味財産の部では、指定正味財産と一般正味財産を合わせまして、正味財産合計が1億3,649万5,761円、負債及び正味財産合計が5億3,717万1,568円でございます。
+　13ページをお願いします。
+　次に、正味財産増減計算書でございます。
+　1、一般正味財産増減の部、経常増減の部、経常収益計は12億2,431万9,178円、経常費用計は12億1,492万675円で、当期経常増減額は939万8,503円でございます。
+　経常外増減の部は、2円の減少でございます。
+　14ページをお開きください。
+　税引前当期一般正味財産増減額は939万8,501円でございます。法人税等を差し引きまして、当期一般正味財産増減額は828万5,701円でございます。
+　一般正味財産期首残高1億1,821万60円に当期一般正味財産増減額を加えまして、一般正味財産期末残高は1億2,649万5,761円でございます。
+　2、指定正味財産増減の部の指定正味財産期首残高、指定正味財産期末残高は、ともに1,000万円、3、正味財産期末残高は、一般正味財産期末残高を加え、1億3,649万5,761円でございます。
+　15ページをお願いします。
+　次に、財産目録でございますが、貸借対照表で御説明しましたとおり－－16ページをお願いします－－資産合計5億3,717万1,568円、負債合計4億67万5,807円、正味財産は1億3,649万5,761円となります。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_77">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.14 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　榊原産業交流局長。
+　〔産業交流局長榊原佳寿君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_78">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.14 産業交流局長（榊原佳寿君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎産業交流局長（榊原佳寿君）　公益財団法人和歌山市中小企業勤労者福祉サービスセンター、公益財団法人和歌山地域地場産業振興センター及び株式会社ぶらくりの経営状況について御説明します。
+　まず初めに、公益財団法人和歌山市中小企業勤労者福祉サービスセンターの経営状況について御説明します。
+　法人の経営状況を説明する書類の17ページをお開き願います。
+　令和2年度の事業計画ですが、中小企業の勤労者等に対し、共済給付事業、健康管理推進事業、融資生活支援事業、余暇活動事業－－18ページをお願いします－－老後生活安定等事業や広報事業など各種事業を実施してまいります。また、和歌山市勤労者総合センターの管理運営受託事業にも取り組んでまいります。
+　続きまして、令和元年度の事業報告ですが、共済給付事業として、祝金などの各種給付を行いました。
+　19ページをお願いします。
+　そのほか、健康診断補助などの健康管理推進事業、生活資金のあっせんなどの融資生活支援事業、余暇活動事業として－－20ページをお願いします－－レクリエーションの開催、老後生活安定等事業のセミナーの実施、さらに、会報等の発行やテレビ、ラジオを通じた広報など各種広報事業を行いました。
+　21ページをお願いします。
+　令和元年度決算について御説明します。
+　一般会計貸借対照表です。
+　資産の部、流動資産、固定資産を合わせて、資産合計は1億8,855万8,654円です。
+　負債の部、流動負債、固定負債を合わせて、負債合計は3,215万920円です。
+　正味財産の部、指定正味財産と一般正味財産を合わせて、正味財産合計は1億5,640万7,734円となり、負債及び正味財産合計は1億8,855万8,654円です。
+　22ページをお願いします。
+　一般会計正味財産増減計算書です。
+　一般正味財産増減の部、経常収益計1億4,411万5,139円から経常費用計1億5,015万3,338円を差し引いた当期経常増減額は603万8,199円の減少です。
+　また、当期経常外増減額はゼロ円で、当期一般正味財産増減額は603万8,199円の減少です。これを一般正味財産期首残高と合わせました一般正味財産期末残高は1億2,140万7,734円となり、正味財産期末残高は、指定正味財産期末残高の3,500万円を合わせた1億5,640万7,734円となります。
+　23ページをお願いします。
+　一般会計財産目録です。
+　貸借対照表で御説明しましたとおり、資産合計1億8,855万8,654円、負債合計3,215万920円で、差引きの正味財産は1億5,640万7,734円となります。
+　24ページをお願いします。
+　令和元年度受託事業報告について、和歌山市勤労者総合センターの会館管理運営事業では、会議室等の使用件数が2,092件、入場者数は4万6,556人、トレーニングルームは7,069人の利用がありました。
+　教室関係事業では、料理とお菓子教室、生け花教室など各種教室を開催しました。
+　25ページをお願いします。
+　特別会計貸借対照表です。
+　資産合計、負債合計ともに187万2,980円、正味財産はありませんので、負債及び正味財産合計は187万2,980円となります。
+　26ページをお願いします。
+　特別会計正味財産増減計算書ですが、経常収益計、経常費用計ともに4,158万3,394円で、正味財産期末残高はゼロ円となります。
+　最後に、特別会計財産目録です。
+　資産合計、負債合計ともに187万2,980円、差引正味財産はゼロ円となります。
+　次に、公益財団法人和歌山地域地場産業振興センターの経営状況について御説明します。
+　27ページをお願いします。
+　公益財団法人和歌山地域地場産業振興センターは、昭和58年1月の設立以来、地場産業をはじめとする地域産業の新商品、新技術の開発、需要開拓、人材養成を図るとともに、地域中小企業の振興及び経済の振興に寄与してきました。しかしながら、近年の産業支援方針の変化、中小企業の求める支援の変化等により、法人を取り巻く環境は設立当初と比べて大きく変化してきました。こうしたことから、設立当初の目的を達成したと判断し、令和2年11月末をもって解散することとなりました。
+　令和2年度の事業計画ですが、解散に伴う各手続をスムーズに行ってまいりますが、解散までの間、和歌山地域の優れた地場産業製品や産品を展示即売会等で広くＰＲし、ホームページによる情報収集提供事業などにも取り組んでまいります。
+　続きまして、令和元年度の事業報告です。
+　センター管理運営事業ですが、評議員会2回、理事会を3回開催しました。
+　需要開拓事業では、和歌山地場産フェアや大都市圏での物産展の開催－－28ページをお願いします－－各地の物産展への参加等により、和歌山地域の物産の販路開拓と販路拡大に努めました。
+　また、アンテナショップ事業では、アンテナショップの委託販売により、地場産品のＰＲと販路開拓、需要促進に努めるとともに、ホームページによる情報収集提供事業にも取り組みました。
+　29ページをお願いします。
+　令和元年度決算について御説明します。
+　貸借対照表です。
+　資産の部、流動資産と固定資産を合わせて、資産合計は4,049万7,447円です。
+　負債の部、流動負債と固定負債を合わせて、負債合計は2,514万8,636円です。
+　正味財産の部、指定正味財産と一般正味財産を合わせて、正味財産合計は1,534万8,811円となり、負債及び正味財産合計は4,049万7,447円です。
+　30ページをお願いします。
+　正味財産増減計算書です。
+　一般正味財産増減の部、経常収益計2,669万2,136円から－－31ページをお願いします－－経常費用計2,678万6,952円を差し引いた当期経常増減額は9万4,816円の減少です。
+　また、当期経常外増減額はゼロ円となり、当期一般正味財産増減額は9万4,816円の減少です。これを一般正味財産期首残高から差し引いた一般正味財産期末残高は34万8,811円となり、正味財産期末残高は、指定正味財産期末残高の1,500万円を合わせた1,534万8,811円となります。
+　32ページをお願いします。
+　財産目録です。
+　貸借対照表で御説明しましたとおり、資産合計4,049万7,447円、負債合計2,514万8,636円で、差引きの正味財産は1,534万8,811円となります。
+　33ページをお願いします。
+　次に、株式会社ぶらくりの経営状況について御説明します。
+　令和2年度の事業計画ですが、駐車場管理運営事業については、引き続き収益事業の柱として注力していきます。
+　非収益事業については、ウェブサイト運営や新規開業相談等の対応を実施していきます。
+　また、再開発事業やアーケード解体撤去事業に関連する情報収集や自主研究に着手していきます。
+　続きまして、令和元年度の事業報告です。
+　収益事業として、駐車場管理運営事業、ハンドメイド雑貨小売店舗運営事業を行いました。
+　まちづくり事業としては、ウェブサイトの運営、情報発信のニューズレターの発行、中心市街地での不動産賃貸借及び新規開業支援、イベントやワークショップの企画、運営を行いました。また、和歌山大学の学生への指導、商店街視察対応、ぶらくり丁エリアのリニューアルに関する調査、企画等を行いました。
+　34ページをお願いします。
+　令和元年度の決算について御説明します。
+　貸借対照表です。
+　資産の部、流動資産、固定資産を合わせて、資産合計は1,177万6,902円です。
+　負債の部、流動負債、固定負債を合わせて、負債合計は100万5,345円です。
+　純資産の部、資本金は1,190万円、利益剰余金はマイナス112万8,443円、純資産合計1,077万1,557円で、負債及び純資産合計は、資産の部の合計と同額の1,177万6,902円です。
+　35ページをお願いします。
+　損益計算書ですが、売上高合計900万4,004円、売上原価合計45万4,743円、差引売上総利益金額は854万9,261円です。
+　販売及び一般管理費合計は857万2,770円で、差引営業利益金額はマイナス2万3,509円です。
+　営業外収益合計は2万3,148円で、経常利益金額はマイナス361円です。
+　税引前当期純利益金額はマイナス361円で、法人税、住民税及び事業税を処理した後の当期純利益金額はマイナス18万2,861円です。
+　36ページをお願いします。
+　株主資本等変動計算書は、貸借対照表の純資産の部の株主資本の前期から今期に至るまでの変動を示す計算書類です。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_79">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑はありませんか。
+　〔「なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_80">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　質疑なしと認めます。
+　以上で、法人の経営状況を説明する書類についてを終わります。
+　　　－－－－－－－－－－－－－－－
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_81">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 日程第１３</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第１３　承第１号　市長専決処分事項の承認を求めるについてから
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_82">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 日程第４１</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>△日程第４１　議案第２４号　物品購入契約についてまで
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_83">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　次に、日程第13、承第1号、市長専決処分事項の承認を求めるについてから、日程第41、議案第24号、物品購入契約についてまでの29件を一括議題とします。
+　当局から提案理由の説明を求めます。－－尾花市長。
+　〔市長尾花正啓君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_84">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.17 市長（尾花正啓君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎市長（尾花正啓君）　それでは、ただいま上程されました諸議案につきまして、その概要を御説明いたします。
+　まず、承認関係では、新型コロナウイルス感染症対策に係る専決処分が5件ございます。一般会計において、特別定額給付金等の国の施策に対する補正予算と妊婦さん応援事業などの市独自の補正予算の2件、特別会計では、感染者に対する傷病手当金に係る国民健康保険事業特別会計の補正予算1件、また、傷病手当金の支給に係る後期高齢者医療及び国民健康保険に関する条例の一部改正をそれぞれ専決処分いたしております。
+　次に、予算関係につきましては、一般会計におきまして、新型コロナウイルス感染症対策として、第2波の到来に備えた学校、幼稚園、保育所、若竹学級及び福祉施設へのマスクや消毒液などの配備、感染者や濃厚接触者対応に要する保健所の資材やコールセンター等の費用、衛生研究所のＰＣＲ検査に要する経費、離職などにより住居を失った方に支給する住居確保給付金などを計上しております。
+　また、防災対策として、自主防災組織が行う防災活動や婦人防火クラブの防火思想の普及啓発に必要な資機材の整備に要する経費を計上しております。
+　そのほか、和歌山城ホールの指定管理料は債務負担行為と併せて、また、障害者スポーツ推進事業、博物館改修事業、若竹学級教室新設事業などに要する経費などを計上しております。
+　次に、条例関係につきましては、和歌山市新型コロナウイルスささえ愛基金条例の制定など11件の条例案を提出しております。
+　そのほか、市道路線の認定、変更及び廃止、委託契約の締結、損害賠償額の決定、旧慣による公有財産の使用廃止、指定管理者の指定、工事請負契約の締結、物品購入契約の議案を提出しております。
+　詳細につきましては担当局長から説明いたしますので、議員の皆様におかれましては、慎重御審議の上、御賛同賜りますようよろしくお願い申し上げます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_85">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.18 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　川嶋財政局長。
+　〔財政局長川嶋正起君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_86">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.18 財政局長（川嶋正起君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎財政局長（川嶋正起君）　承第1号から議案第24号までについて、一括して御説明申し上げます。
+　議案書の22ページをお開きください。
+　承第1号から54ページの承第3号は、新型コロナウイルス感染症対策に係る予算措置でございまして、承第1号は、国の緊急経済対策に伴う令和2年度和歌山市一般会計補正予算を－－44ページをお開き願います－－承第2号は、新型コロナウイルス感染症に係る国民健康保険加入者への傷病手当金の支給に伴う令和2年度和歌山市国民健康保険事業特別会計補正予算を、いずれも地方自治法第179条第1項の規定に基づき、4月30日付で市長専決処分により措置いたしましたので、同条第3項の規定により報告し、承認を求めるものでございます。
+　54ページをお開き願います。
+　承第3号は、国の緊急経済対策に伴う令和2年度和歌山市一般会計補正予算を、地方自治法第179条第1項の規定に基づき、5月13日付で市長専決処分により措置いたしましたので、同条第3項の規定により報告し、承認を求めるものでございます。
+　66ページをお願いいたします。
+　承第4号及び69ページの承第5号は、新型コロナウイルス感染症に係る被用者に対する傷病手当金の支給についての条例改正でございまして、承第4号は、和歌山市後期高齢者医療に関する条例の一部を改正する条例の制定について－－69ページをお開き願います－－承第5号は、和歌山市国民健康保険条例の一部を改正する条例の制定について、いずれも地方自治法第179条第1項の規定に基づき、4月30日付で市長専決処分により措置いたしましたので、同条第3項の規定により報告し、承認を求めるものでございます。
+　73ページをお開き願います。
+　議案第1号は、令和2年度和歌山市一般会計補正予算（第5号）で、歳入歳出それぞれ5億6,999万8,000円を追加し、予算総額を1,900億8,548万9,000円とするものでございます。
+　以下、その内容につきまして御説明いたします。
+　74ページをお開き願います。
+　歳入の部で、使用料及び手数料45万円、国庫支出金2億8,011万6,000円、県支出金1,033万3,000円、寄附金1億100万円、繰入金1,623万9,000円、諸収入9,596万円、市債6,590万円をそれぞれ増額補正するものでございます。
+　75ページをお願いいたします。
+　次に、歳出の部でございます。
+　第1款議会費853万7,000円の減額補正は、事業中止等に伴う諸経費の減額でございます。
+　第2款総務費1億8,720万4,000円の補正は、第1項総務管理費で、姉妹都市など諸外国等との交流事業の中止に伴う諸経費の減額のほか、新型コロナウイルスささえ愛基金積立金、ＳＤＧｓシンポジウム実施事業交付金、地区防災会の防災資機材の整備に要する費用の助成の増額など9,520万9,000円、第2項徴税費で、法人市民税の払戻しに要する諸経費5,283万2,000円、第3項市民生活費で、自治会館及びコミュニティ活動用備品整備の助成に要する諸経費1,010万円、第4項戸籍住民基本台帳費で、住民基本台帳ネットワーク事業に係る通知カード・個人番号カード関連事務負担金4,192万8,000円、第5項選挙費で、事業中止等に伴う諸経費19万1,000円の減額、第7項文化スポーツ費で、博物館の玄関ホールなどの照明工事、特別展開催に要する諸経費、和歌山城ホール管理運営事業に要する経費などの増額のほか、紀の国わかやま文化祭2021プレイベント、オリンピック関連事業などの事業中止等に伴う諸経費の減額で1,238万8,000円の減額、第8項監査委員費で11万7,000円の減額、第9項人事委員会費で16万9,000円の減額は、それぞれ事業中止等に伴うものでございます。
+　第3款民生費9,797万1,000円の補正は、第1項社会福祉費で、住居確保給付金、障害者福祉サービス事業者のマスク等購入費用に対する補助などの新型コロナウイルス感染症対策に要する諸経費、障害者スポーツの普及促進に要する諸経費6,636万7,000円、第2項生活保護費で、救護施設のマスク等購入及び施設の消毒費用に対する補助金150万円、第3項児童福祉費で、私立保育所のマスク等購入費用に対する補助などの諸経費3,010万4,000円でございます。
+　第4款衛生費、第1項保健衛生費3,824万5,000円の補正は、事業中止等に伴う諸経費の減額のほか、受診相談や感染予防に関する相談を行う健康相談窓口の設置、強化などに要する諸経費、ＰＣＲ検査等の試薬などの検査体制の強化に要する諸経費などの増額でございます。
+　第5款農林水産業費、第2項農林緑花費75万円の減額は、事業中止等によるものでございます。
+　第6款商工費、第2項観光費628万9,000円の減額は、友ヶ島野奈浦桟橋の整備のための調査委託料、友ヶ島管理事業に要する諸経費、和歌山城天守閣ブルーライトアップに要する経費などの増額のほか、紀州おどりなどの事業中止等に伴う諸経費の減額でございます。
+　第7款土木費1億294万1,000円の補正は、第2項道路橋梁費で、道路不具合等通報システムの導入に要する経費として170万円の増額、第3項河川費で50万円の減額、第5項都市計画道路費で75万円の減額は、それぞれ事業中止等によるもので、第6項公園費1億249万1,000円の補正は、公園施設の長寿命化に要する諸経費でございます。
+　第8款消防費、第1項消防費3,644万4,000円の補正は、旧南分署解体撤去、地域消防力強化のための備品の整備、消防分団への安全装備品の配備に要する諸経費でございます。
+　第9款教育費1億2,276万9,000円の補正は、－－76ページをお開き願います－－第1項教育総務費で、事業中止等に伴う諸経費233万5,000円の減額、第2項小学校費で579万3,000円、第3項中学校費で241万2,000円、第4項高等学校費で26万8,000円、第5項幼稚園費で550万円の補正は、新型コロナウイルス感染症対策のために使用する衛生用品等の購入に要する諸経費で、第6項社会教育費で1億1,113万1,000円の補正は、子どもなかよしまつりなどの事業中止に伴う経費の減額のほか、感染症対策のため若竹学級で使用する衛生用品購入、児童数の増加による若竹学級の教室の整備に要する諸経費、地域交流拠点として活用する用地の購入のための土地鑑定手数料などの増額でございます。
+　77ページをお願いいたします。
+　債務負担行為の補正は第2表のとおりで、和歌山城ホール管理運営事業について、期間を令和3年度から令和5年度まで、限度額4億3,362万7,000円として追加するものでございます。
+　78ページをお開きください。
+　地方債の補正は第3表のとおりで、博物館整備事業など2件について、限度額1,460万円を追加するとともに、観光基盤施設整備事業など2件について、事業費の変更により、限度額を190億8,790万円から191億3,920万円に変更するものでございます。
+　79ページをお願いいたします。
+　議案第2号、和歌山市議会の議決すべき事件を定める条例の一部を改正する条例の制定については、特定複合観光施設区域整備法の規定に基づき、県が申請を行う区域整備計画に係る本市の同意について、市議会の議決事件とするため、所要の改正を行うものでございます。
+　80ページをお願いいたします。
+　議案第3号、和歌山市職員服務宣誓条例の一部を改正する条例の制定については、会計年度任用職員について、服務の宣誓を任用形態や任用手続に応じた方法で行うことができるようにするため、所要の改正を行うものでございます。
+　81ページをお願いいたします。
+　議案第4号、和歌山市新型コロナウイルスささえ愛基金条例の制定については、新型コロナウイルス感染症対策を推進するとともに、影響を受ける子育て世帯等の支援及び保健医療の充実に資するため、本市を応援しようとする方々の理解と協力の下、基金を設置するものでございます。
+　82ページをお願いいたします。
+　議案第5号、和歌山市税条例の一部を改正する条例の制定については、新型コロナウイルス感染症及びその蔓延防止のための措置が納税者に及ぼす影響の緩和を図るための地方税法等の改正を受けて、徴収猶予の特例、令和3年度から中小事業者等が所有する償却資産及び事業用家屋に係る固定資産税及び都市計画税の課税標準の特例などについて、所要の改正を行うものでございます。
+　85ページをお開き願います。
+　議案第6号、和歌山市手数料条例の一部を改正する条例の制定については、行政手続における特定の個人を識別するための番号の利用等に関する法律が改正され、通知カードが廃止されたことに伴い、通知カードに関することを削除するため、所要の改正を行うものでございます。
+　86ページをお願いいたします。
+　議案第7号、和歌山市隣保館条例の一部を改正する条例の制定については、隣保館の使用について、近隣の公共施設との均衡を図るため、また、使用を現在の取扱いに合わせて明確にするため、所要の改正を行うものでございます。
+　90ページをお願いいたします。
+　議案第8号、和歌山市小児慢性特定疾病児童等に係る日常生活用具の給付に関する条例の一部を改正する条例の制定については、費用の額を定めるに当たって参考にしている国の要綱が改正されたことから、所要の改正を行うものでございます。
+　93ページをお願いいたします。
+　議案第9号、和歌山市行政手続における特定の個人を識別するための番号の利用等に関する法律に基づく個人番号の利用及び特定個人情報の提供に関する条例の一部を改正する条例の制定については、国に設置されている個人情報保護委員会が、情報連携の対象となる独自利用事務の事例に、利用料以外の「保護者から実費で徴収する費用の補助又は減免」が対象に追加されたことを契機に、「認定こども園、保育所又は地域型保育事業所に在籍する第3子以降の児童に係る副食費の助成に関する事務」について、独自利用事務として個人番号を利用可能な事務とするため、所要の改正を行うものでございます。
+　94ページをお開き願います。
+　議案第10号、和歌山市特別償却設備に係る固定資産税の不均一課税に関する条例の一部を改正する条例の制定については、本市の区域内において、地方活力向上地域等特定業務施設整備計画に従って特別償却設備を新設し、または増設した事業者について、当該特別償却設備である建物等または土地について、地方税法の規定による固定資産税の優遇措置を課税免除とするとともに、期限を2年間延長するため、所要の改正を行うものでございます。
+　95ページをお願いいたします。
+　議案第11号、和歌山市立和歌の浦アート・キューブ条例の一部を改正する条例の制定については、指定管理の期間が令和3年3月末で終了となり、新たな指定管理者の公募に際し、利用料金制を採用するため、また、施設の使用許可の取消事由を明確にするため、所要の改正を行うものでございます。
+　97ページをお願いいたします。
+　議案第12号、和歌山市消防団員等公務災害補償条例の一部を改正する条例の制定については、非常勤消防団員等に係る損害補償の基準を定める政令が改正され、補償基礎額が引き上げられたこと及び民法が改正され、法定利率が改定されたことに伴い、所要の改正を行うものでございます。
+　99ページをお開き願います。
+　議案第13号、市道路線認定につきましては、道路法第8条第2項の規定により、宮前180号線はじめ23路線を市道に認定するものでございます。
+　112ページをお開き願います。
+　議案第14号、市道路線変更につきましては、道路法第10条第3項の規定により、楠見61号線はじめ4路線の起点を変更するものでございます。
+　117ページをお願いいたします。
+　議案第15号、市道路線廃止につきましては、道路法第10条第3項の規定により、川永団地3号線はじめ8路線を廃止するものでございます。
+　119ページをお開き願います。
+　議案第16号、委託契約の締結につきましては、校内ＬＡＮ構築及び電源キャビネット設置業務委託について、西日本電信電話株式会社和歌山支店と5億9,840万円で契約するものでございます。
+　120ページをお開きください。
+　議案第17号、損害賠償の額を定めるにつきましては、和歌山市湊2675番地26フェニックス港湾道路上で発生した清掃自動車の物損事故に対する損害賠償の額を定めるものでございます。
+　121ページをお願いいたします。
+　議案第18号、旧慣による公有財産の使用廃止につきましては、地方自治法第238条の6第1項の規定により、古池及びイナ池の公有財産の使用に関する旧来の慣行を廃止するものでございます。
+　122ページをお願いいたします。
+　議案第19号、指定管理者の指定につきましては、地方自治法第244条の2第6項の規定に基づき指定管理者の指定を行うもので、和歌山城ホールについて、令和2年8月1日から令和6年3月31日までの間、公益財団法人和歌山市文化スポーツ振興財団を指定管理者として指定するものでございます。
+　次に、別刷りの議案書（その2）をお願いいたします。
+　1ページをお開き願います。
+　1ページの議案第20号から3ページの議案第22号までは、いずれも工事請負契約の締結でございます。
+　議案第20号は、中央卸売市場水産卸売場棟外建替工事を清水建設・吉永建設特定建設工事共同企業体と22億1,430万円で－－2ページをお開き願います－－議案第21号は、中央卸売市場水産卸売場棟外建替電気設備工事を初島電設株式会社と3億9,446万円で－－3ページをお願いいたします－－議案第22号は、中央卸売市場水産卸売場棟外建替機械設備工事を株式会社小向商会と4億8,111万6,900円で、それぞれ契約するものでございます。
+　4ページをお開き願います。
+　議案第23号及び5ページの議案第24号は、いずれも物品購入契約でございます。
+　議案第23号は、水槽付き消防ポンプ自動車Ⅱ型の購入について、有限会社和歌山防火協会と7,975万円で－－5ページをお願いいたします－－議案第24号は、災害対応特殊消防ポンプ自動車ＣＤ－Ⅰ型2台の購入について、有限会社和歌山防火協会と9,486万4,000円で、それぞれ契約するものでございます。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_87">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.22 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　以上で提案理由の説明は終わりました。
+　この際、ただいま議題となっている29件のうち、議案第3号、和歌山市職員服務宣誓条例の一部を改正する条例の制定について、地方公務員法第5条第2項の規定により、人事委員会の意見を求めます。－－水野人事委員会委員長。
+　〔人事委員会委員長水野八朗君登壇〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_88">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.23 人事委員会委員長（水野八朗君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>◎人事委員会委員長（水野八朗君）　ただいま議長から意見を求められました議案第3号について、人事委員会の意見を述べます。
+　議案第3号、和歌山市職員服務宣誓条例の一部を改正する条例の制定につきましては、会計年度任用職員の服務の宣誓について、任用形態及び任用手続に応じた方法で行うことができるよう、所要の改正を行うものであり、妥当であると考えます。
+　以上でございます。
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_89">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.23 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　お諮りします。
+　本日の会議はこの程度にとどめ延会し、明6月13日から6月15日までの3日間は議案精読のため休会とし、6月16日午前10時から会議を開くことにしたいと思います。これに御異議ありませんか。
+　〔「異議なし」と呼ぶ者あり〕
+</pre></td>
+	</tr>
+	<tr class="minute_title open " id="text_list_90">
+		<td style="visibility: hidden;">
+			<span class="title_text">P.23 議長（井上直樹君）</span>
+			
+		</td>
+		<td class="ctl_minute" tabindex="0"><label class="checkbox"><input class="print_selected" type="checkbox"></label></td>
+	</tr>
+	<tr class="minute_text open ">
+		<td colspan="2"><pre>○議長（井上直樹君）　御異議なしと認めます。
+　よって、そのように決しました。
+　本日はこれにて延会します。
+　　　　　　　　　　午後２時１７分延会
+　　　－－－－－－－－－－－－－－－
+　地方自治法第１２３条第２項の規定によってここに署名する。
+　議長　　　　井上直樹
+　議員　　　　宇治田清治
+　議員　　　　中尾友紀
+　議員　　　　松井紀博
+</pre></td>
+	</tr>
+</tbody></table>
+	</div><!-- /#wide -->
+</div><!-- /#contents -->
+
+<div class="totop"><a href="https://ssp.kaigiroku.net/tenant/wakayama/SpMinuteView.html?tenant_id=398&amp;council_id=593&amp;schedule_id=2#"><img src="./wakayama_files/totop.png" alt="ページのトップへ戻る"></a></div><!-- /.totop -->
+
+
+
+
+<div id="loader" style="display: none;"><img src="./wakayama_files/loader.gif" alt=""></div>
+
+<div class="remodal-overlay remodal-is-closed" style="display: none;"></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal remodal-is-initialized remodal-is-closed" data-remodal-id="schedule-dialog" tabindex="-1">
+	<p id="d-title-schedule">日程を選ぶ</p>
+	<ul class="child_bar" style="display: block;" id="schedule-index">
+	<li tabindex="0" class="schedule" id="schedule_id_1">06月12日－目次</li><li tabindex="0" class="schedule" id="schedule_id_2">06月12日－01号</li><li tabindex="0" class="schedule" id="schedule_id_3">06月16日－02号</li><li tabindex="0" class="schedule" id="schedule_id_4">06月17日－03号</li><li tabindex="0" class="schedule" id="schedule_id_5">06月18日－04号</li><li tabindex="0" class="schedule" id="schedule_id_6">06月19日－05号</li><li tabindex="0" class="schedule" id="schedule_id_7">07月01日－06号</li></ul>
+	<button data-remodal-action="cancel" class="remodal-cancel">戻る</button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div id="config-dialog" class="remodal remodal-is-initialized remodal-is-closed" data-remodal-id="config-modal" tabindex="-1"></div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal remodal-is-initialized remodal-is-closed" data-remodal-id="minute_modal" tabindex="-1">
+	<p id="d-title-related">関連議事録を選ぶ</p>
+	<ul class="child_bar" style="display: block;" id="minute_link">
+	</ul>
+	<button data-remodal-action="cancel" class="remodal-cancel">戻る</button>
+</div></div></body></html>
