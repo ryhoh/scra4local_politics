@@ -1,7 +1,8 @@
 from typing import List, Dict
 import unittest
 
-from main import parse, det_encoding
+from src.parser import parse
+from src.utils import det_encoding, sorted_result
 
 
 class TestParse(unittest.TestCase):
@@ -11,13 +12,9 @@ class TestParse(unittest.TestCase):
         with open(path, 'r', encoding=enc) as f:
             return f.read()
 
-    @staticmethod
-    def sorted_result(res_list: list) -> List[Dict]:
-        return sorted(res_list, key=lambda x: x['number'])
-
     def test_ibaraki(self):
-        res = self.sorted_result(parse(self.load('res/ibaraki.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/ibaraki.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '大野幾子'}, {'number': '14', 'name': '上田光夫'},
             {'number': '2', 'name': '塚理'}, {'number': '15', 'name': '大村卓司'},
             {'number': '3', 'name': '長谷川浩'}, {'number': '16', 'name': '青木順子'},
@@ -35,8 +32,8 @@ class TestParse(unittest.TestCase):
         self.assertListEqual(ideal, res)
 
     def test_takatsuki(self):
-        res = self.sorted_result(parse(self.load('res/takatsuki.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/takatsuki.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '髙島佐浪枝'}, {'number': '2', 'name': '鴻野潔'}, {'number': '3', 'name': '中村明子'},
             {'number': '4', 'name': '市來隼'}, {'number': '5', 'name': '江澤由'}, {'number': '6', 'name': '岡田安弘'},
             {'number': '7', 'name': '甲斐隆志'}, {'number': '8', 'name': '遠矢家永子'}, {'number': '9', 'name': '五十嵐秀城'},
@@ -53,8 +50,8 @@ class TestParse(unittest.TestCase):
         self.assertListEqual(ideal, res)
 
     def test_wakayama(self):
-        res = self.sorted_result(parse(self.load('res/wakayama.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/wakayama.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '井本有一'}, {'number': '2', 'name': '中村朝人'}, {'number': '3', 'name': '赤松良寛'},
             {'number': '4', 'name': '浜田真輔'}, {'number': '5', 'name': '堀良子'}, {'number': '6', 'name': '西風章世'},
             {'number': '7', 'name': '山中敏生'}, {'number': '8', 'name': '川端康史'}, {'number': '9', 'name': '永野裕久'},
@@ -72,8 +69,8 @@ class TestParse(unittest.TestCase):
         self.assertListEqual(ideal, res)
 
     def test_otsu(self):
-        res = self.sorted_result(parse(self.load('res/otsu.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/otsu.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '鳥井義徳'}, {'number': '2', 'name': '細川俊行'}, {'number': '3', 'name': '神田健次'},
             {'number': '4', 'name': '出町明美'}, {'number': '5', 'name': '柏木敬友子'}, {'number': '6', 'name': '小島義雄'},
             {'number': '7', 'name': '寺田英幸'}, {'number': '8', 'name': '河村浩史'}, {'number': '9', 'name': '幸光正嗣'},
@@ -91,8 +88,8 @@ class TestParse(unittest.TestCase):
         self.assertListEqual(ideal, res)
 
     def test_hikone(self):
-        res = self.sorted_result(parse(self.load('res/hikone.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/hikone.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '辻真理子'}, {'number': '13', 'name': '森野克彦'}, {'number': '2', 'name': '中川睦子'},
             {'number': '14', 'name': '林利幸'}, {'number': '3', 'name': '角井英明'}, {'number': '15', 'name': '森田充'},
             {'number': '4', 'name': '獅山向洋'}, {'number': '16', 'name': '小川吉則'}, {'number': '5', 'name': '堀口達也'},
@@ -105,8 +102,8 @@ class TestParse(unittest.TestCase):
         self.assertListEqual(ideal, res)
 
     def test_higashiomi(self):
-        res = self.sorted_result(parse(self.load('res/higashiomi.html')))
-        ideal = self.sorted_result([
+        res = sorted_result(parse(self.load('../res/higashiomi.html')))
+        ideal = sorted_result([
             {'number': '1', 'name': '山本直彦'}, {'number': '2', 'name': '青山孝司'}, {'number': '3', 'name': '櫻直美'},
             {'number': '4', 'name': '鈴木則彦'}, {'number': '5', 'name': '辻英幸'}, {'number': '6', 'name': '西村和恭'},
             {'number': '7', 'name': '田井中丈三'}, {'number': '8', 'name': '井上均'}, {'number': '9', 'name': '吉坂豊'},
