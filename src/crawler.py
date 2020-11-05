@@ -2,7 +2,7 @@ import sys
 import time
 from urllib.parse import urlparse, urljoin
 import re
-from typing import List, Dict, Union, Iterable
+from typing import List, Dict, Union, Callable, Iterable
 
 import requests
 from selenium.webdriver.common.by import By
@@ -28,10 +28,17 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
     これを木構造に例えるなら，この関数は深さ優先探索のようにして，1つずつ末端の URL を取得していく
 
     :param entry_url: 「会議録の閲覧」ページの URL
-    :return: リスト[辞書(会議・日程の名前とリンク)]
+    :return: リスト(辞書(会議・日程の名前とリンク))
     """
 
-    def open_year_sets():
+    def get_children_img_alt_of_a_tag(qualified_by: Callable[[str], bool]) -> List[str]:
+        r"""
+        現在のブラウザを用いて，ページ内の a タグを全て見つけ，その中に img タグがないか調べる．
+        img タグがあり，alt 属性が設定されていて，qualified_by(alt) を満たすなら，その alt を取得する．
+        各 a タグの中で見つかった alt 属性の文字列をリストにして返す
+        :param qualified_by: alt 属性の判定用関数
+        :return: リスト(alt 属性の文字列)
+        """
         target_alts = []
         body = browser.find_element_by_xpath('/html/body')
         a_tags = body.find_elements(By.XPATH, '//a')
@@ -40,10 +47,19 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
             for child in children:  # a タグの中身を走査
                 if child.tag_name == 'img':
                     alt = child.get_attribute('alt').replace(' ', '').replace('　', '')
-                    if re.fullmatch(re_year_set_pat, alt):  # "平成22年～平成27年", "平成28年～" を狙う
+                    if qualified_by(alt):
                         target_alts.append(alt)
+        return target_alts
 
-        for target_alt in target_alts:
+    def generate_a_tag_by_alts(alts: List[str]) -> Iterable[WebElement]:
+        r"""
+        現在のブラウザを用いて，ページ内の a タグを全て見つけ，その中に img タグがないか調べる．
+        img タグがあり，alt 属性が設定されていて，そのテキストが所与のリスト alts に含まれるなら，
+        その a タグを返す．
+        :param alts: alt 属性のテキストのリスト
+        :return: ジェネレータ(a タグ)
+        """
+        for target_alt in alts:
             body = browser.find_element_by_xpath('/html/body')
             a_tags = body.find_elements(By.XPATH, '//a')
             for tag in a_tags:
@@ -52,42 +68,27 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
                     if child.tag_name == 'img':
                         alt = child.get_attribute('alt').replace(' ', '').replace('　', '')
                         if alt == target_alt:
-                            tag.click()  # これで，"令和 2年" などの，年度のリストが現れる
-                            open_years()  # この状態で，定例会・臨時会の一覧を開ける
-                            browser.back()
+                            yield tag
                             break
                 else:
                     continue
-                break
+                break  # child で条件を満たす img タグがあったら，その a タグはそこで終了
+
+    def open_year_sets():
+        # "平成22年～平成27年", "平成28年～" を狙う
+        target_alts = get_children_img_alt_of_a_tag(lambda x: bool(re.fullmatch(re_year_set_pat, x)))
+        for tag in generate_a_tag_by_alts(target_alts):
+            tag.click()  # これで，"令和 2年" などの，年度のリストが現れる
+            open_years()  # この状態で，定例会・臨時会の一覧を開ける
+            browser.back()
 
     def open_years():
-        target_alts = []
-        body = browser.find_element_by_xpath('/html/body')
-        a_tags = body.find_elements(By.XPATH, '//a')
-        for tag in a_tags:
-            children = tag.find_elements(By.XPATH, '*')
-            for child in children:  # a タグの中身を走査
-                if child.tag_name == 'img':
-                    alt = child.get_attribute('alt').replace(' ', '').replace('　', '')
-                    if '～' not in alt and alt.endswith('年'):  # "令和 2年", "平成31年" ... を狙う
-                        target_alts.append(alt)
-
-        for target_alt in target_alts:
-            body = browser.find_element_by_xpath('/html/body')
-            a_tags = body.find_elements(By.XPATH, '//a')
-            for tag in a_tags:
-                children = tag.find_elements(By.XPATH, '*')
-                for child in children:  # a タグの中身を走査
-                    if child.tag_name == 'img':
-                        alt = child.get_attribute('alt').replace(' ', '').replace('　', '')
-                        if alt == target_alt:
-                            tag.click()  # これで "令和 2年 第1回定例会" などのリストが現れる
-                            open_councils()  # この状態で，定例会・臨時会の日程一覧を開ける
-                            browser.back()
-                            break
-                else:
-                    continue
-                break
+        # "令和 2年", "平成31年" ... を狙う
+        target_alts = get_children_img_alt_of_a_tag(lambda x: '～' not in x and x.endswith('年'))
+        for tag in generate_a_tag_by_alts(target_alts):
+            tag.click()  # これで "令和 2年 第1回定例会" などのリストが現れる
+            open_councils()  # この状態で，定例会・臨時会の日程一覧を開ける
+            browser.back()
 
     def open_councils():
         target_names = []
