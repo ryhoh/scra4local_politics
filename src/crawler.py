@@ -18,6 +18,7 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
     （高槻市なら http://www.kensakusystem.jp/takatsuki/cgi-bin3/See.exe?Code=izm2vke6bjde8ygf0p からスタート）
 
     会議録の閲覧ページは，以下の構造を想定している．
+    （http://www.kensakusystem.jp が提供するサービスと仮定）
 
     - 会議録の閲覧ページ
         - 年度のかたまり："平成28年～令和2年", "平成22年～平成27年" ...
@@ -28,7 +29,7 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
     これを木構造に例えるなら，この関数は深さ優先探索のようにして，1つずつ末端の URL を取得していく
 
     :param entry_url: 「会議録の閲覧」ページの URL
-    :return: リスト(辞書(会議・日程の名前とリンク))
+    :return: list(dict('会の名称': 会議・日程の名前, 'URL': リンク))
     """
 
     def get_children_img_alt_of_a_tag(qualified_by: Callable[[str], bool]) -> List[str]:
@@ -37,7 +38,7 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
         img タグがあり，alt 属性が設定されていて，qualified_by(alt) を満たすなら，その alt を取得する．
         各 a タグの中で見つかった alt 属性の文字列をリストにして返す
         :param qualified_by: alt 属性の判定用関数
-        :return: リスト(alt 属性の文字列)
+        :return: list(alt 属性の文字列)
         """
         target_alts = []
         body = browser.find_element_by_xpath('/html/body')
@@ -57,7 +58,7 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
         img タグがあり，alt 属性が設定されていて，そのテキストが所与のリスト alts に含まれるなら，
         その a タグを返す．
         :param alts: alt 属性のテキストのリスト
-        :return: ジェネレータ(a タグ)
+        :return: Generator(a タグ)
         """
         for target_alt in alts:
             body = browser.find_element_by_xpath('/html/body')
@@ -116,7 +117,7 @@ def load_council_page_urls(entry_url: str) -> List[Dict[str, str]]:
                 date_name = tag.text.replace(' ', '').replace('　', '')
                 results.append({
                     '会の名称': '%s%s' % (council_name, date_name),
-                    'HTML': tag.get_attribute('href')
+                    'URL': tag.get_attribute('href')
                 })
                 print('\"%s%s\" を取得' % (council_name, date_name))
 

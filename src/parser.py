@@ -7,6 +7,7 @@ import mojimoji
 
 def replace_empty_line(lines: str) -> str:
     r"""
+    文字列から空行を取り除いて返す
     :param lines: 文字列
     :return: lines 内の空行を取り除いた文字列
     """
@@ -20,8 +21,9 @@ def replace_empty_line(lines: str) -> str:
 
 def remove_number_honorific(person_string: str) -> Dict[str, str]:
     r"""
+    「番」や「議員」「くん」などを含む氏名情報を，議員番号と氏名に分解する
     :param person_string: 「番」や「議員」「くん」などを含む，氏名情報
-    :return: 辞書(議員番号と氏名)
+    :return: dict(number: 議員番号, name: 氏名)
     """
     re_res = re.search(r'[0-9|０-９]+番', person_string)
     number = mojimoji.zen_to_han(person_string[re_res.start(): re_res.end() - 1])  # '番'を落とす -1
@@ -37,12 +39,14 @@ def remove_number_honorific(person_string: str) -> Dict[str, str]:
 
 def parse(html_string: str) -> List[dict]:
     r"""
-    :param html_string: htmlのソース
-    :return: list(dict(number: 議員番号, name: 氏名), …)
+    HTML ファイル（文字列）から，出席者の議員番号と氏名を取り出す
 
     作戦：和歌山市のようなフォーマットに一度揃える
         要件1: 空行を含まないこと
         要件2: <br>タグではなく，改行コードで行の終わりを表す
+
+    :param html_string: htmlのソース
+    :return: list(dict(number: 議員番号, name: 氏名), …)
     """
     # フォーマット変更ここから
     br_line_pattern = re.compile(r'( |　)*<(br|BR|br /|BR /)>( |　)*')  # 改行タグと空白のみ
